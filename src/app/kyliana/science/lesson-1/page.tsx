@@ -823,7 +823,7 @@ function Scene5({ onFinish }: { onFinish: (score: number) => void }) {
   const handleSubmit = () => {
     setSubmitted(true);
     const score = answers.filter((a, i) => a === QUIZ_QUESTIONS[i].correct).length;
-    setTimeout(() => onFinish(score), 1200);
+    onFinish(score);
   };
 
   return (
@@ -892,7 +892,7 @@ function Scene5({ onFinish }: { onFinish: (score: number) => void }) {
       })}
 
       <div className="text-center mt-2">
-        <GoldBtn onClick={handleSubmit} disabled={!allAnswered}>
+        <GoldBtn onClick={handleSubmit} disabled={!allAnswered || submitted}>
           {allAnswered ? "See My Score ✦" : `Answer all questions (${answers.filter(a => a !== null).length}/5)`}
         </GoldBtn>
       </div>
