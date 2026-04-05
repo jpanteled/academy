@@ -1,8 +1,9 @@
 // src/app/kyliana/science/lesson-1/page.tsx
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { saveLessonProgress } from "@/lib/progress";
 
 // ── Types ──────────────────────────────────────────────────────
 type AxoMood = "neutral" | "excited" | "thinking" | "surprised" | "proud" | "encouraging";
@@ -216,6 +217,43 @@ function Scene2({ onNext }: { onNext: () => void }) {
     });
   };
 
+  const [dragOver, setDragOver] = useState<string | null>(null);
+
+  const onDragStart = (e: React.DragEvent, id: string, from: "bank" | "living" | "nonliving") => {
+    e.dataTransfer.setData("id", id);
+    e.dataTransfer.setData("from", from);
+  };
+
+  const onDragOver = (e: React.DragEvent, bucket: string) => {
+    e.preventDefault();
+    setDragOver(bucket);
+  };
+
+  const onDrop = (e: React.DragEvent, to: "living" | "nonliving") => {
+    e.preventDefault();
+    setDragOver(null);
+    const id = e.dataTransfer.getData("id");
+    const from = e.dataTransfer.getData("from") as "bank" | "living" | "nonliving";
+    if (from === to) return;
+    if (from === "bank") setBank(prev => prev.filter(i => i !== id));
+    if (from === "living") setLiving(prev => prev.filter(i => i !== id));
+    if (from === "nonliving") setNonliving(prev => prev.filter(i => i !== id));
+    if (to === "living") setLiving(prev => [...prev, id]);
+    if (to === "nonliving") setNonliving(prev => [...prev, id]);
+    setSortResult(null);
+  };
+
+  const returnToBank = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragOver(null);
+    const id = e.dataTransfer.getData("id");
+    const from = e.dataTransfer.getData("from") as "living" | "nonliving";
+    if (from === "living") setLiving(prev => prev.filter(i => i !== id));
+    if (from === "nonliving") setNonliving(prev => prev.filter(i => i !== id));
+    setBank(prev => [...prev, id]);
+    setSortResult(null);
+  };
+
   const selectItem = (id: string) => {
     setSelected(prev => prev === id ? null : id);
   };
@@ -322,7 +360,12 @@ function Scene2({ onNext }: { onNext: () => void }) {
         </h2>
 
         {/* Item bank */}
-        <div className="flex flex-wrap gap-2 justify-center mb-4 min-h-[60px] p-3 bg-[#1a0d45] border border-dashed border-[#c9a84c33] rounded-xl">
+        <div
+          className="flex flex-wrap gap-2 justify-center mb-4 min-h-[60px] p-3 bg-[#1a0d45] border border-dashed border-[#c9a84c33] rounded-xl transition-all"
+          onDragOver={(e) => { e.preventDefault(); setDragOver("bank"); }}
+          onDragLeave={() => setDragOver(null)}
+          onDrop={returnToBank}
+        >
           <AnimatePresence>
             {bank.map(id => {
               const item = SORT_ITEMS.find(i => i.id === id)!;
@@ -333,8 +376,10 @@ function Scene2({ onNext }: { onNext: () => void }) {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.8 }}
+                  draggable
+                  onDragStart={(e) => onDragStart(e as unknown as React.DragEvent, id, "bank")}
                   onClick={() => selectItem(id)}
-                  className={`px-4 py-2 rounded-full text-sm font-[family-name:var(--font-crimson)] border transition-all cursor-pointer ${
+                  className={`px-4 py-2 rounded-full text-sm font-[family-name:var(--font-crimson)] border transition-all cursor-grab active:cursor-grabbing ${
                     selected === id
                       ? "border-[#f5e199] bg-[#331870] text-[#f5e199]"
                       : "border-[#c9a84c55] bg-[#2a1660] text-[#f5e199] hover:border-[#c9a84c]"
@@ -356,12 +401,19 @@ function Scene2({ onNext }: { onNext: () => void }) {
             <motion.div
               key={bucket}
               onClick={() => dropToBucket(bucket)}
+              onDragOver={(e) => onDragOver(e, bucket)}
+              onDragLeave={() => setDragOver(null)}
+              onDrop={(e) => onDrop(e, bucket)}
               whileHover={{ scale: selected ? 1.02 : 1 }}
               className={`min-h-[120px] rounded-xl p-3 border-2 border-dashed cursor-pointer transition-all ${
                 bucket === "living"
-                  ? "border-[#4caf7d44] bg-[#4caf7d0a]"
-                  : "border-[#c9a84c44] bg-[#c9a84c0a]"
-              } ${selected ? "border-opacity-100" : ""}`}
+                  ? dragOver === "living"
+                    ? "border-[#4caf7d] bg-[#4caf7d22]"
+                    : "border-[#4caf7d44] bg-[#4caf7d0a]"
+                  : dragOver === "nonliving"
+                    ? "border-[#c9a84c] bg-[#c9a84c22]"
+                    : "border-[#c9a84c44] bg-[#c9a84c0a]"
+              }`}
             >
               <p className={`font-[family-name:var(--font-cinzel)] text-xs tracking-[0.2em] uppercase text-center mb-3 ${
                 bucket === "living" ? "text-[#4caf7d]" : "text-[#c9a84c]"
@@ -376,11 +428,13 @@ function Scene2({ onNext }: { onNext: () => void }) {
                       <motion.button
                         key={id}
                         layout
+                        draggable
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.8 }}
+                        onDragStart={(e) => onDragStart(e as unknown as React.DragEvent, id, bucket)}
                         onClick={(e) => { e.stopPropagation(); returnItem(id, bucket); }}
-                        className="px-3 py-1 rounded-full text-xs bg-[#2a1660] border border-[#c9a84c33] text-[#f5e199] cursor-pointer hover:border-[#c9a84c]"
+                        className="px-3 py-1 rounded-full text-xs bg-[#2a1660] border border-[#c9a84c33] text-[#f5e199] cursor-grab active:cursor-grabbing hover:border-[#c9a84c]"
                       >
                         {item.label}
                       </motion.button>
@@ -445,7 +499,7 @@ function Scene3({ onNext }: { onNext: () => void }) {
   const [wrongPair, setWrongPair] = useState<string | null>(null);
   const [allMatched, setAllMatched] = useState(false);
 
-  const shuffledDefs = [...MATCH_PAIRS].sort(() => 0.5 - Math.random());
+  const shuffledDefs = [MATCH_PAIRS[2], MATCH_PAIRS[0], MATCH_PAIRS[3], MATCH_PAIRS[1]];
 
   const selectTerm = (id: string) => {
     if (matched.has(id)) return;
@@ -931,8 +985,17 @@ export default function Lesson1() {
 
   const next = () => setScene(s => s + 1);
 
-  const handleFinish = (s: number) => {
+  const handleFinish = async (s: number) => {
     setScore(s);
+    await saveLessonProgress({
+      studentId: "kyliana",
+      lessonId: "science-lesson-1",
+      subject: "Science",
+      unit: "Life Science — Plants",
+      teks: "4.13A",
+      score: s,
+      totalQuestions: 5,
+    });
     setScene(6);
   };
 
@@ -954,7 +1017,7 @@ export default function Lesson1() {
               height: i % 3 === 0 ? 5 : 3,
               top: `${(i * 7 + 4) % 95}%`,
               left: `${(i * 13 + 3) % 95}%`,
-              opacity: 0.3 + Math.random() * 0.4,
+              opacity: i % 2 === 0 ? 0.5 : 0.3,
             }}
           />
         ))}
