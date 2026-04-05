@@ -1076,9 +1076,10 @@ export default function Lesson2() {
 
   const next = () => setScene(s => s + 1);
 
-  const handleFinish = async (s: number) => {
+  const handleFinish = (s: number) => {
     setScore(s);
-    await saveLessonProgress({
+    setScene(7);
+    saveLessonProgress({
       studentId: "kyliana",
       lessonId: "science-lesson-2",
       subject: "Science",
@@ -1086,8 +1087,7 @@ export default function Lesson2() {
       teks: "4.13A",
       score: s,
       totalQuestions: 5,
-    });
-    setScene(7);
+    }).catch(err => console.error("Progress save failed:", err));
   };
 
   const restart = () => {
