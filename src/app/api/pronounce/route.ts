@@ -1,10 +1,5 @@
 // src/app/api/pronounce/route.ts
-import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
 import { NextRequest, NextResponse } from "next/server";
-
-const client = new ElevenLabsClient({
-  apiKey: process.env.ELEVENLABS_API_KEY,
-});
 
 const phoneticMap: Record<string, string> = {
   "phototropism": "photo troh pizim",
@@ -15,7 +10,7 @@ const phoneticMap: Record<string, string> = {
   "auxin": "Awkcen",
   "stomata": "stoh-MAH-tah",
   "chlorophyll": "KLOR-oh-fill",
-  "photosynthesis": "photo tropsims",
+  "photosynthesis": "photo synthesis",
   "xylem": "ZY-lum",
   "phloem": "FLOW-em",
   "petiole": "PET-ee-ole",
@@ -23,6 +18,10 @@ const phoneticMap: Record<string, string> = {
   "transpiration": "tran-spih-RAY-shun",
   "germination": "jer-mih-NAY-shun",
   "pollination": "pah-lih-NAY-shun",
+  "translocation": "trans-loh-KAY-shun",
+  "chloroplast": "KLOR-oh-plast",
+  "chloroplasts": "KLOR-oh-plasts",
+  "vacuole": "VAK-yoo-ole",
 };
 
 export async function POST(req: NextRequest) {
@@ -32,17 +31,33 @@ export async function POST(req: NextRequest) {
 
     const spoken = phoneticMap[word.toLowerCase()] ?? word;
 
-    const audio = await client.textToSpeech.convert("n7Wi4g1bhpw4Bs8HK5ph", {
-      text: spoken,
-      modelId: "eleven_turbo_v2_5",
-      outputFormat: "mp3_44100_128",
-    });
+    const response = await fetch(
+      `https://api.elevenlabs.io/v1/text-to-speech/n7Wi4g1bhpw4Bs8HK5ph`,
+      {
+        method: "POST",
+        headers: {
+          "xi-api-key": process.env.ELEVENLABS_API_KEY!,
+          "Content-Type": "application/json",
+          "Accept": "audio/mpeg",
+        },
+        body: JSON.stringify({
+          text: spoken,
+          model_id: "eleven_turbo_v2_5",
+          voice_settings: {
+            stability: 0.5,
+            similarity_boost: 0.75,
+          },
+        }),
+      }
+    );
 
-    const chunks: Uint8Array[] = [];
-    for await (const chunk of audio) {
-      chunks.push(chunk);
+    if (!response.ok) {
+      const err = await response.text();
+      console.error("ElevenLabs error:", err);
+      return NextResponse.json({ error: "TTS failed" }, { status: 500 });
     }
-    const buffer = Buffer.concat(chunks);
+
+    const buffer = await response.arrayBuffer();
 
     return new NextResponse(buffer, {
       headers: {
