@@ -1,4 +1,4 @@
-// src/app/kyliana/science/lesson-4/page.tsx
+// src/app/kyliana/science/lesson-5/page.tsx
 "use client";
 
 import { useState } from "react";
@@ -157,10 +157,8 @@ function VocabTerm({ word, children }: { word: string; children: React.ReactNode
   );
 }
 
-// ── Image Modal ────────────────────────────────────────────────
 function ImageModal({ src, alt }: { src: string; alt: string }) {
   const [open, setOpen] = useState(false);
-
   return (
     <>
       <motion.div
@@ -174,7 +172,6 @@ function ImageModal({ src, alt }: { src: string; alt: string }) {
           <span className="text-[#c9a84c] text-xs font-[family-name:var(--font-cinzel)]">🔍 Tap to enlarge</span>
         </div>
       </motion.div>
-
       <AnimatePresence>
         {open && (
           <motion.div
@@ -239,26 +236,25 @@ function GhostBtn({ onClick, children }: { onClick: () => void; children: React.
 // ══════════════════════════════════════════════════════════════
 const WARMUP_QUESTIONS = [
   {
-    q: "In Lesson 3, we learned that a plant's stem grows toward light. What is this called?",
-    options: ["Gravitropism", "Hydrotropism", "Phototropism", "Transpiration"],
+    q: "From Lesson 4 — which organelle inside a plant cell is where photosynthesis happens?",
+    options: ["Nucleus", "Vacuole", "Chloroplast", "Cell wall"],
     correct: 2,
   },
   {
-    q: "Which plant hormone controls tropisms by making cells grow longer?",
-    options: ["Chlorophyll", "Glucose", "Stomata", "Auxin"],
+    q: "From Lesson 3 — what is it called when a plant's stem grows toward light?",
+    options: ["Gravitropism", "Hydrotropism", "Transpiration", "Phototropism"],
     correct: 3,
   },
   {
-    q: "From Lesson 2 — which tube carries water UP from the roots to the leaves?",
-    options: ["Phloem", "Stomata", "Petiole", "Xylem"],
-    correct: 3,
+    q: "From Lesson 2 — which vascular tube carries water UP from the roots to the leaves?",
+    options: ["Phloem", "Stomata", "Xylem", "Petiole"],
+    correct: 2,
   },
 ];
 
 function Scene1({ onNext }: { onNext: () => void }) {
   const [answers, setAnswers] = useState<(number | null)[]>(Array(3).fill(null));
   const [checked, setChecked] = useState(false);
-
   const allAnswered = answers.every(a => a !== null);
   const score = answers.filter((a, i) => a === WARMUP_QUESTIONS[i].correct).length;
 
@@ -266,9 +262,8 @@ function Scene1({ onNext }: { onNext: () => void }) {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <Axo
         mood="excited"
-        message="Good morning, Detective! 🌿 Before we dive into today's mystery, let's make sure our science knowledge is still sharp!<br/><br/>Three quick warm-up questions from our last lessons. No pressure — this is just to get your brain warmed up!"
+        message="Detective! We've been on quite a journey together — roots, stems, leaves, internal cells, and tropisms! 🌿<br/><br/>Before today's BIG lesson, let's make sure everything from our last few lessons is locked in. Three warm-up questions!"
       />
-
       <Card>
         <h2 className="font-[family-name:var(--font-cinzel)] text-lg font-semibold text-[#f5e199] mb-4 pb-3 border-b border-[#c9a84c22]">
           🔥 Warm-Up: What Do You Remember?
@@ -292,10 +287,7 @@ function Scene1({ onNext }: { onNext: () => void }) {
                   return (
                     <button
                       key={oi}
-                      onClick={() => {
-                        if (checked) return;
-                        setAnswers(prev => { const next = [...prev]; next[qi] = oi; return next; });
-                      }}
+                      onClick={() => { if (checked) return; setAnswers(prev => { const next = [...prev]; next[qi] = oi; return next; }); }}
                       disabled={checked}
                       className={`w-full text-left px-4 py-2 rounded-lg text-sm font-[family-name:var(--font-crimson)] border transition-all cursor-pointer ${style}`}
                     >
@@ -307,7 +299,6 @@ function Scene1({ onNext }: { onNext: () => void }) {
             </div>
           );
         })}
-
         {!checked ? (
           <div className="text-center mt-4">
             <motion.button
@@ -330,13 +321,12 @@ function Scene1({ onNext }: { onNext: () => void }) {
               : "bg-[#e24b4a11] border border-[#e24b4a33] text-[#e24b4acc]"
             }`}
           >
-            {score === 3 ? "✦ Perfect warm-up! Your science knowledge is locked in!" :
-             score === 2 ? "✦ Good recall! Review any you missed before we continue." :
-             "Take a quick look at the highlighted answers — review helps them stick!"}
+            {score === 3 ? "✦ Perfect! Your plant knowledge is solid — let's go deeper!" :
+             score === 2 ? "✦ Good recall! Check the ones you missed before we continue." :
+             "Review the highlighted answers — then let's build on what you know!"}
           </motion.div>
         )}
       </Card>
-
       <div className="text-center">
         <GoldBtn onClick={onNext} disabled={!checked}>
           {checked ? "Let's Begin! →" : "Answer all questions first"}
@@ -347,7 +337,7 @@ function Scene1({ onNext }: { onNext: () => void }) {
 }
 
 // ══════════════════════════════════════════════════════════════
-// SCENE 2 — EXPERIMENT FOLLOW-UP + INTRO
+// SCENE 2 — EXPERIMENT FOLLOW-UP + HOOK
 // ══════════════════════════════════════════════════════════════
 function Scene2({ onNext }: { onNext: () => void }) {
   const [observation, setObservation] = useState("");
@@ -357,9 +347,8 @@ function Scene2({ onNext }: { onNext: () => void }) {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <Axo
         mood="thinking"
-        message="Wait — before we go further! In Lesson 3 I gave you two experiments to try at home. Did you try the phototropism plant experiment? 🌱<br/><br/>Tell me what you observed — even if you didn't get to try it, make a prediction about what you think would have happened!"
+        message="Before we start — did you try the celery xylem experiment from Lesson 4? 🥬<br/><br/>You put celery in colored water and waited 24 hours. Tell me what you saw — or if you didn't get to try it, make a prediction!"
       />
-
       <Card>
         <h2 className="font-[family-name:var(--font-cinzel)] text-lg font-semibold text-[#f5e199] mb-4 pb-3 border-b border-[#c9a84c22]">
           🔬 Field Observation Report
@@ -367,14 +356,14 @@ function Scene2({ onNext }: { onNext: () => void }) {
         <div className="bg-[#1a0d45] border border-[#c9a84c33] rounded-xl p-4 mb-4">
           <p className="font-[family-name:var(--font-cinzel)] text-xs text-[#c9a84c] mb-2">The Experiment</p>
           <p className="text-[#f5e199cc] text-sm leading-relaxed">
-            You placed a plant near a window for 3-5 days, then rotated it 180°. What happened to the plant's direction of growth?
+            You placed celery in colored water for 24 hours, then cut it crosswise. What did the cross-section look like? Where did the color travel?
           </p>
         </div>
         <textarea
           value={observation}
           onChange={e => setObservation(e.target.value)}
           disabled={submitted}
-          placeholder="What did you observe or predict? Did the plant lean toward the window? What happened when you rotated it?"
+          placeholder="What did you see? Did the color travel up? Where did you see it in the cross-section?"
           rows={4}
           className="w-full bg-[#1a0d45] border border-[#c9a84c33] rounded-xl px-4 py-3 text-[#f5e199] text-base font-[family-name:var(--font-crimson)] leading-relaxed focus:outline-none focus:border-[#c9a84c] resize-none mb-4 placeholder-[#c9a84c44]"
         />
@@ -398,7 +387,7 @@ function Scene2({ onNext }: { onNext: () => void }) {
           >
             <p className="text-[#4caf7d] font-[family-name:var(--font-cinzel)] text-sm mb-2">✦ Observation logged!</p>
             <p className="text-[#f5e199cc] text-sm font-[family-name:var(--font-crimson)] leading-relaxed">
-              What you likely saw: the plant leaned toward the window (phototropism!). After rotating, the plant would slowly begin leaning back toward the light — auxin redistributing on the new shaded side. Science in action! 🌱
+              You should have seen colored dots in the cross-section — those are the xylem tubes! The color traveled UP through xylem exactly the way water and minerals do in a real plant. Science you can see! 🌿
             </p>
           </motion.div>
         )}
@@ -406,12 +395,35 @@ function Scene2({ onNext }: { onNext: () => void }) {
 
       <Axo
         mood="surprised"
-        message="Today we're going even DEEPER into our mystery plant — not just looking at its outside parts, but going <strong>inside</strong> the plant itself! 🔬<br/><br/>We already know about xylem and phloem from Lesson 2. Today we're going to understand HOW they actually work at the cellular level — and discover the other incredible structures inside plant cells!<br/><br/>Grab your microscope — we're going in!"
+        message="Now here's the big question that connects EVERYTHING we've learned so far 🤯<br/><br/>We know water travels up through xylem to the leaves. We know chloroplasts are in the leaf cells. We know plants don't eat food like animals do...<br/><br/>So HOW do plants get their energy? How do they actually make their own food?<br/><br/>The answer is one of the most important processes on Earth — <strong>photosynthesis!</strong>"
       />
+
+      <Card>
+        <h2 className="font-[family-name:var(--font-cinzel)] text-lg font-semibold text-[#f5e199] mb-4 pb-3 border-b border-[#c9a84c22]">
+          ☀️ The Big Picture
+        </h2>
+        <p className="text-[#f5e199cc] text-sm leading-relaxed mb-4">
+          Before we dive in, look at this diagram. Don't worry about understanding everything yet — just notice the inputs going IN and the outputs coming OUT.
+        </p>
+        <ImageModal src="/images/science/plants/photosynthesis-overview.webp" alt="Photosynthesis overview diagram" />
+        <div className="mt-4 grid grid-cols-2 gap-3">
+          <div className="bg-[#1a0d45] border border-[#c9a84c33] rounded-xl p-3">
+            <p className="font-[family-name:var(--font-cinzel)] text-xs text-[#c9a84c] mb-2">⬇️ Goes IN</p>
+            <p className="text-[#f5e199cc] text-sm">☀️ Sunlight</p>
+            <p className="text-[#f5e199cc] text-sm">💧 Water (H₂O)</p>
+            <p className="text-[#f5e199cc] text-sm">💨 Carbon Dioxide (CO₂)</p>
+          </div>
+          <div className="bg-[#1a0d45] border border-[#c9a84c33] rounded-xl p-3">
+            <p className="font-[family-name:var(--font-cinzel)] text-xs text-[#4caf7d] mb-2">⬆️ Comes OUT</p>
+            <p className="text-[#f5e199cc] text-sm">🍬 Glucose (food/sugar)</p>
+            <p className="text-[#f5e199cc] text-sm">🫁 Oxygen (O₂)</p>
+          </div>
+        </div>
+      </Card>
 
       <div className="text-center">
         <GoldBtn onClick={onNext} disabled={!submitted}>
-          {submitted ? "Go Inside the Plant! 🔬" : "Submit your observation first!"}
+          {submitted ? "Watch the Video! 🎬" : "Submit your observation first!"}
         </GoldBtn>
       </div>
     </motion.div>
@@ -422,24 +434,39 @@ function Scene2({ onNext }: { onNext: () => void }) {
 // SCENE 3 — VIDEO
 // ══════════════════════════════════════════════════════════════
 function VideoQuiz({ onComplete }: { onComplete: () => void }) {
-  const [answers, setAnswers] = useState<(number | null)[]>([null, null, null]);
+  const [answers, setAnswers] = useState<(number | null)[]>([null, null, null, null]);
   const [checked, setChecked] = useState(false);
 
   const questions = [
     {
-      q: "According to the video, what two substances does xylem transport?",
-      options: ["Sugar and oxygen", "Water and minerals", "Food and carbon dioxide", "Glucose and protein"],
+      q: "According to the video, what four things does a plant need for photosynthesis?",
+      options: [
+        "Sunlight, oxygen, water, and soil",
+        "Sunlight, carbon dioxide, water, and chlorophyll",
+        "Glucose, oxygen, sunlight, and minerals",
+        "Carbon dioxide, glucose, water, and roots",
+      ],
       correct: 1,
     },
     {
-      q: "What is the process called when phloem moves food from leaves to other parts of the plant?",
-      options: ["Transpiration", "Photosynthesis", "Translocation", "Germination"],
+      q: "What is the green substance in plants that makes photosynthesis possible?",
+      options: ["Glucose", "Oxygen", "Chlorophyll", "Carbon dioxide"],
       correct: 2,
     },
     {
-      q: "In the video, where are the xylem and phloem located in a stem?",
-      options: ["In the center of the stem", "Scattered randomly", "Clustered near the edge of the stem", "Only in the roots"],
-      correct: 2,
+      q: "According to the video, what do plants produce during photosynthesis that humans need to breathe?",
+      options: ["Carbon dioxide", "Glucose", "Water vapor", "Oxygen"],
+      correct: 3,
+    },
+    {
+      q: "The video mentions a curious fact about plants at night. What happens?",
+      options: [
+        "Plants photosynthesize faster at night",
+        "Plants take in oxygen and release carbon dioxide — like humans breathe",
+        "Plants stop all processes at night",
+        "Plants absorb more water at night",
+      ],
+      correct: 1,
     },
   ];
 
@@ -469,10 +496,7 @@ function VideoQuiz({ onComplete }: { onComplete: () => void }) {
                 return (
                   <button
                     key={oi}
-                    onClick={() => {
-                      if (checked) return;
-                      setAnswers(prev => { const next = [...prev]; next[qi] = oi; return next; });
-                    }}
+                    onClick={() => { if (checked) return; setAnswers(prev => { const next = [...prev]; next[qi] = oi; return next; }); }}
                     disabled={checked}
                     className={`w-full text-left px-4 py-2 rounded-lg text-sm font-[family-name:var(--font-crimson)] border transition-all cursor-pointer ${style}`}
                   >
@@ -516,30 +540,29 @@ function Scene3({ onNext }: { onNext: () => void }) {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <Axo
         mood="excited"
-        message="I found an incredible video that shows exactly what's happening INSIDE the plant when water and food travel through it! 🎬<br/><br/>Remember xylem and phloem from Lesson 2? This video shows you what they actually look like at the cellular level. Watch carefully — I'll ask you about it afterward!<br/><br/><em style='color:#c9a84c'>Listen for: vascular tissue, xylem, phloem, and translocation!</em>"
+        message="I found a perfect video that explains photosynthesis step by step! 🎬<br/><br/>It's only 4 minutes and it's going to connect everything we've learned — roots, xylem, leaves, chlorophyll — into one amazing process!<br/><br/><em style='color:#c9a84c'>Listen for: chlorophyll, stomata, raw sap, and what happens to plants at night!</em>"
       />
-
       <Card>
         <h2 className="font-[family-name:var(--font-cinzel)] text-lg font-semibold text-[#f5e199] mb-4 pb-3 border-b border-[#c9a84c22]">
-          🎬 Axo's Science Lab: <span className="inline-flex items-center gap-1">Vascular <Pronounce word="vascular" /></span> Transport
+          🎬 Axo's Science Lab: <span className="inline-flex items-center gap-1">Photosynthesis <Pronounce word="photosynthesis" /></span>
         </h2>
         <div className="relative w-full rounded-xl overflow-hidden mb-4" style={{ paddingBottom: "56.25%" }}>
           <iframe
             className="absolute inset-0 w-full h-full"
-            src="https://www.youtube.com/embed/DhyYtT1K844"
-            title="Xylem and Phloem Transport in Plants"
+            src="https://www.youtube.com/embed/UPBMG5EYydo"
+            title="Photosynthesis for Kids"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           />
         </div>
         <p className="text-[#c9a84c99] text-xs font-[family-name:var(--font-cinzel)] text-center tracking-wider mb-2">
-          Watch the full video then answer the questions below — listen for <span className="inline-flex items-center gap-1">translocation <Pronounce word="translocation" /></span>!
+          Watch the full video then answer the questions below
         </p>
       </Card>
 
       <Axo
         mood="thinking"
-        message="Great watching! The video goes into some really advanced science — like tracheids and lignin. Those are <em style='color:#c9a84c'>bonus scientist knowledge</em> — you don't need to memorize them. Focus on xylem, phloem, and translocation. Now let's check what you caught!"
+        message="Great watching! Now let's check what you caught — 4 questions this time because there was a lot of great information in that video!"
       />
 
       <VideoQuiz onComplete={() => setVideoChecked(true)} />
@@ -554,132 +577,225 @@ function Scene3({ onNext }: { onNext: () => void }) {
 }
 
 // ══════════════════════════════════════════════════════════════
-// SCENE 4 — VASCULAR TISSUE DEEP DIVE
+// SCENE 4 — PHOTOSYNTHESIS DEEP DIVE
 // ══════════════════════════════════════════════════════════════
 function Scene4({ onNext }: { onNext: () => void }) {
   const [revealed, setRevealed] = useState<Set<string>>(new Set());
-  const [matchAnswers, setMatchAnswers] = useState<Record<string, string>>({});
-  const [matchChecked, setMatchChecked] = useState(false);
+  const [orderAnswers, setOrderAnswers] = useState<string[]>([]);
+  const [orderChecked, setOrderChecked] = useState(false);
 
-  const toggle = (id: string) => setRevealed(prev => {
-    const next = new Set(prev);
-    next.has(id) ? next.delete(id) : next.add(id);
-    return next;
-  });
-
-  const vessels = [
-    {
-      id: "xylem",
-      name: "Xylem",
-      word: "xylem",
-      color: "text-[#7d9fc9]",
-      border: "border-[#7d9fc955]",
-      bg: "bg-[#7d9fc911]",
-      carries: "Water and minerals",
-      direction: "UP — from roots to leaves",
-      cells: "Dead hollow tube cells — no living contents, just empty tubes for water to flow through",
-      analogy: "Like water pipes in your house — hollow tubes that carry water from one place to another",
-      fact: "The wood in trees is mostly made of old xylem cells!",
-    },
-    {
-      id: "phloem",
-      name: "Phloem",
-      word: "phloem",
-      color: "text-[#c9a84c]",
-      border: "border-[#c9a84c55]",
-      bg: "bg-[#c9a84c11]",
-      carries: "Sugar (glucose) and food",
-      direction: "DOWN — from leaves to roots and other parts",
-      cells: "Living cells with small holes (like a sieve) that allow food to pass through",
-      analogy: "Like a food delivery system — taking the food made in the leaves to wherever the plant needs it",
-      fact: "The sweet sap in maple trees that we make maple syrup from travels through phloem!",
-    },
+  const steps = [
+    { id: "roots", icon: "🌱", title: "Roots absorb water", desc: "The roots absorb water and minerals from the soil. This water travels up through xylem to the leaves." },
+    { id: "stomata", icon: "💨", title: "Stomata absorb CO₂", desc: "Tiny pores on the underside of leaves called stomata open up and absorb carbon dioxide from the air." },
+    { id: "chlorophyll", icon: "🟢", title: "Chlorophyll captures sunlight", desc: "Chlorophyll molecules inside the chloroplasts capture energy from sunlight. This is what makes leaves green!" },
+    { id: "reaction", icon: "⚗️", title: "The reaction happens", desc: "Inside the chloroplasts, sunlight energy is used to combine water and carbon dioxide together — like a recipe being cooked!" },
+    { id: "output", icon: "✨", title: "Glucose and oxygen are produced", desc: "The reaction produces glucose (the plant's food/energy) and oxygen — which is released through the stomata into the air we breathe!" },
   ];
 
-  const matchItems = [
-    { id: "x1", structure: "Xylem", answer: "Carries water and minerals upward" },
-    { id: "p1", structure: "Phloem", answer: "Carries sugar made in leaves downward" },
-    { id: "x2", structure: "Xylem", answer: "Made of dead hollow tube cells" },
-    { id: "p2", structure: "Phloem", answer: "The process it uses is called translocation" },
-  ];
+  const orderOptions = ["Stomata absorb CO₂", "Chlorophyll captures sunlight", "Roots absorb water", "Glucose and oxygen are produced", "The reaction happens in chloroplasts"];
+  const correctOrder = ["Roots absorb water", "Stomata absorb CO₂", "Chlorophyll captures sunlight", "The reaction happens in chloroplasts", "Glucose and oxygen are produced"];
 
-  const shuffledAnswers = [
-    "Carries sugar made in leaves downward",
-    "Made of dead hollow tube cells",
-    "The process it uses is called translocation",
-    "Carries water and minerals upward",
-  ];
+  const toggleOrder = (step: string) => {
+    if (orderChecked) return;
+    setOrderAnswers(prev =>
+      prev.includes(step) ? prev.filter(s => s !== step) : prev.length < 5 ? [...prev, step] : prev
+    );
+  };
+
+  const checkOrder = () => setOrderChecked(true);
+  const orderCorrect = orderAnswers.join(",") === correctOrder.join(",");
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <Axo
         mood="thinking"
-        message="Now let's really understand what's happening inside those vascular tubes! 🔬<br/><br/>We know xylem carries water UP and phloem carries food DOWN. But HOW do they work? And what makes them different from each other?<br/><br/>Tap each one to investigate!"
+        message="Now let's break photosynthesis down step by step — like a recipe! 🧪<br/><br/>Every step connects to something you already know. Tap each step to explore it, then I'll test you on the order!"
       />
 
       <Card>
-        <h2 className="font-[family-name:var(--font-cinzel)] text-lg font-semibold text-[#f5e199] mb-4 pb-3 border-b border-[#c9a84c22]">
-          🔬 Inside the <span className="inline-flex items-center gap-1">Vascular <Pronounce word="vascular" /></span> System
+        <h2 className="font-[family-name:var(--font-cinzel)] text-lg font-semibold text-[#f5e199] mb-2 pb-3 border-b border-[#c9a84c22]">
+          ☀️ How <span className="inline-flex items-center gap-1">Photosynthesis <Pronounce word="photosynthesis" /></span> Works
         </h2>
-        {/* Stem cross-section image */}
-        <div className="mb-4">
-          <p className="font-[family-name:var(--font-cinzel)] text-xs text-[#c9a84c] mb-2 tracking-wider">🔬 Real Stem Cross-Section</p>
-          <ImageModal src="/images/stemcs.jpg" alt="Stem cross-section showing xylem and phloem" />
+
+        <div className="mb-4 mt-4">
+          <ImageModal src="/images/science/plants/photosynthesis-chlorophyll.webp" alt="Photosynthesis and chlorophyll diagram" />
         </div>
 
-        <div className="space-y-3">
-          {vessels.map((v, i) => (
+        <div className="space-y-3 mt-4">
+          {steps.map((s, i) => (
             <motion.div
-              key={v.id}
+              key={s.id}
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.12 }}
-              onClick={() => toggle(v.id)}
+              transition={{ delay: i * 0.1 }}
+              onClick={() => setRevealed(prev => { const next = new Set(prev); next.has(s.id) ? next.delete(s.id) : next.add(s.id); return next; })}
               className={`rounded-xl p-4 cursor-pointer border transition-all ${
-                revealed.has(v.id) ? `${v.border} ${v.bg}` : "border-[#c9a84c33] bg-[#1a0d45] hover:border-[#c9a84c]"
+                revealed.has(s.id) ? "border-[#4caf7d55] bg-[#4caf7d0a]" : "border-[#c9a84c33] bg-[#1a0d45] hover:border-[#c9a84c]"
               }`}
             >
               <div className="flex items-center gap-3">
-                <div className="flex-1">
-                  <div className="flex items-center gap-1">
-                    <p className={`font-[family-name:var(--font-cinzel)] text-sm font-bold ${v.color}`}>{v.name}</p>
-                    <Pronounce word={v.word} />
-                  </div>
-                  <p className="text-[#c9a84c99] text-xs">Carries: {v.carries} · Direction: {v.direction}</p>
+                <div className="w-8 h-8 rounded-full bg-[#c9a84c22] border border-[#c9a84c44] flex items-center justify-center font-[family-name:var(--font-cinzel)] text-xs text-[#c9a84c] flex-shrink-0">
+                  {i + 1}
                 </div>
-                <span className="text-[#c9a84c55] text-xs font-[family-name:var(--font-cinzel)]">
-                  {revealed.has(v.id) ? "▲" : "▼ Tap"}
-                </span>
+                <div className="flex-1">
+                  <p className="font-[family-name:var(--font-cinzel)] text-sm text-[#f5e199]">{s.icon} {s.title}</p>
+                </div>
+                <span className="text-[#c9a84c55] text-xs">{revealed.has(s.id) ? "▲" : "▼"}</span>
               </div>
               <AnimatePresence>
-                {revealed.has(v.id) && (
+                {revealed.has(s.id) && (
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="mt-3 space-y-2"
+                    className="mt-3"
                   >
                     <div className="bg-[#1a0d45] rounded-lg p-3 border border-[#c9a84c22]">
-                      <p className="font-[family-name:var(--font-cinzel)] text-xs text-[#f5e199] mb-1">🔬 Cell Structure</p>
-                      <p className="text-[#f5e199cc] text-xs leading-relaxed">{v.cells}</p>
+                      <p className="text-[#f5e199cc] text-xs leading-relaxed">{s.desc}</p>
                     </div>
-                    <div className="bg-[#1a0d45] rounded-lg p-3 border border-[#c9a84c22]">
-                      <p className="font-[family-name:var(--font-cinzel)] text-xs text-[#f5e199] mb-1">🧠 Think of it like...</p>
-                      <p className="text-[#f5e199cc] text-xs leading-relaxed italic">{v.analogy}</p>
-                    </div>
-                    <div className="bg-[#1a0d45] rounded-lg p-3 border border-[#c9a84c22]">
-                      <p className="font-[family-name:var(--font-cinzel)] text-xs text-[#c9a84c] mb-1">💡 Cool Fact</p>
-                      <p className="text-[#f5e199cc] text-xs leading-relaxed italic">{v.fact}</p>
-                    </div>
-                    {v.id === "xylem" && (
-                      <div className="mt-2">
-                        <p className="font-[family-name:var(--font-cinzel)] text-xs text-[#c9a84c] mb-2">📊 Xylem vs Phloem Diagram</p>
-                        <ImageModal src="/images/xylpho.jpg" alt="Xylem and phloem transport diagram" />
-                      </div>
-                    )}
                   </motion.div>
                 )}
               </AnimatePresence>
+            </motion.div>
+          ))}
+        </div>
+      </Card>
+
+      <Axo
+        mood="thinking"
+        message="Now let's see if you can put the steps in order! Tap the steps in the correct sequence — from first to last. Think carefully!"
+      />
+
+      <Card>
+        <h2 className="font-[family-name:var(--font-cinzel)] text-lg font-semibold text-[#f5e199] mb-4 pb-3 border-b border-[#c9a84c22]">
+          🔢 Put It in Order
+        </h2>
+        <p className="text-[#f5e199cc] text-sm mb-4 font-[family-name:var(--font-crimson)]">
+          Tap the steps in the correct order from FIRST to LAST. Your selections will appear numbered below.
+        </p>
+
+        <div className="space-y-2 mb-4">
+          {orderOptions.map(opt => {
+            const pos = orderAnswers.indexOf(opt);
+            const isSelected = pos !== -1;
+            const isCorrectPos = orderChecked && correctOrder[pos] === opt;
+            const isWrongPos = orderChecked && isSelected && !isCorrectPos;
+            return (
+              <motion.button
+                key={opt}
+                whileHover={{ scale: orderChecked ? 1 : 1.01 }}
+                onClick={() => toggleOrder(opt)}
+                className={`w-full text-left px-4 py-3 rounded-xl text-sm font-[family-name:var(--font-crimson)] border transition-all cursor-pointer flex items-center gap-3 ${
+                  orderChecked
+                    ? isCorrectPos ? "border-[#4caf7d] bg-[#4caf7d22] text-[#4caf7d]"
+                    : isWrongPos ? "border-[#e24b4a] bg-[#e24b4a11] text-[#e24b4a]"
+                    : "border-[#c9a84c22] text-[#f5e199cc]"
+                    : isSelected ? "border-[#f5e199] bg-[#331870] text-[#f5e199]"
+                    : "border-[#c9a84c33] bg-[#1a0d45] text-[#f5e199cc] hover:border-[#c9a84c]"
+                }`}
+              >
+                <span className={`w-6 h-6 rounded-full border flex items-center justify-center text-xs flex-shrink-0 ${
+                  isSelected ? "border-[#f5e199] bg-[#f5e19922] text-[#f5e199]" : "border-[#c9a84c33]"
+                }`}>
+                  {isSelected ? pos + 1 : ""}
+                </span>
+                {opt}
+              </motion.button>
+            );
+          })}
+        </div>
+
+        {!orderChecked ? (
+          <div className="text-center">
+            <motion.button
+              whileHover={{ scale: orderAnswers.length === 5 ? 1.02 : 1 }}
+              onClick={checkOrder}
+              disabled={orderAnswers.length < 5}
+              className="px-6 py-2 rounded-full font-[family-name:var(--font-cinzel)] text-xs tracking-widest text-[#1a0d45] disabled:opacity-50"
+              style={{ background: "linear-gradient(135deg, #b8922a, #f5e199, #b8922a)" }}
+            >
+              Check My Order ✦
+            </motion.button>
+          </div>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className={`p-4 rounded-xl text-sm text-center font-[family-name:var(--font-cinzel)] ${
+              orderCorrect
+                ? "bg-[#4caf7d11] border border-[#4caf7d33] text-[#4caf7d]"
+                : "bg-[#c9a84c11] border border-[#c9a84c33] text-[#c9a84c]"
+            }`}
+          >
+            {orderCorrect
+              ? "✦ Perfect order! You know the photosynthesis recipe by heart!"
+              : "Not quite — the correct order is: Roots absorb water → Stomata absorb CO₂ → Chlorophyll captures sunlight → Reaction in chloroplasts → Glucose and oxygen produced!"}
+          </motion.div>
+        )}
+      </Card>
+
+      <div className="text-center">
+        <GoldBtn onClick={onNext}>Next: Chlorophyll & Stomata →</GoldBtn>
+      </div>
+    </motion.div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════
+// SCENE 5 — CHLOROPHYLL & STOMATA DEEP DIVE
+// ══════════════════════════════════════════════════════════════
+function Scene5({ onNext }: { onNext: () => void }) {
+  const [stomataAnswer, setStomataAnswer] = useState<string | null>(null);
+  const [chloroChecked, setChloroChecked] = useState(false);
+
+  const chloroQuestions = [
+    {
+      id: "c1",
+      q: "Why are most plants green?",
+      options: ["Because the soil is brown and they need contrast", "Because chlorophyll is a green pigment that absorbs sunlight", "Because green is the color of glucose", "Because water is blue and mixes with yellow roots"],
+      correct: 1,
+    },
+    {
+      id: "c2",
+      q: "What would happen to a plant kept in total darkness?",
+      options: ["It would grow faster", "It would make more glucose", "It would eventually die because it couldn't photosynthesize", "Nothing — plants don't need light"],
+      correct: 2,
+    },
+  ];
+
+  const [chloroAnswers, setChloroAnswers] = useState<Record<string, number>>({});
+  const allChloroAnswered = chloroQuestions.every(q => chloroAnswers[q.id] !== undefined);
+
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <Axo
+        mood="excited"
+        message="Two of the most important players in photosynthesis are <strong>chlorophyll</strong> and <strong>stomata</strong> — and you already know both of them from earlier lessons! 🌿<br/><br/>Today we're going to see exactly HOW they work in photosynthesis!"
+      />
+
+      <Card>
+        <h2 className="font-[family-name:var(--font-cinzel)] text-lg font-semibold text-[#f5e199] mb-4 pb-3 border-b border-[#c9a84c22]">
+          🟢 <span className="inline-flex items-center gap-1">Chlorophyll <Pronounce word="chlorophyll" /></span> — The Light Catcher
+        </h2>
+
+        <div className="space-y-3 mb-4">
+          {[
+            { icon: "🎨", title: "It's a pigment", desc: "Chlorophyll is a green pigment — a colored chemical — found inside chloroplasts in leaf cells. The green color comes from the way it absorbs light." },
+            { icon: "☀️", title: "It captures sunlight", desc: "Chlorophyll absorbs red and blue light from the sun but reflects green light back — that's why we see plants as green!" },
+            { icon: "⚡", title: "It powers the reaction", desc: "The light energy captured by chlorophyll is what powers the photosynthesis reaction — converting water and CO₂ into glucose and oxygen." },
+            { icon: "🍂", title: "Why leaves change color in fall", desc: "In autumn, plants stop making chlorophyll. Without the green pigment, the other colors (red, orange, yellow) that were always there become visible!" },
+          ].map((item, i) => (
+            <motion.div
+              key={item.title}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.1 }}
+            >
+              <Highlight>
+                <p className="text-[#f5e199] text-sm leading-relaxed">
+                  {item.icon} <strong>{item.title}</strong> — {item.desc}
+                </p>
+              </Highlight>
             </motion.div>
           ))}
         </div>
@@ -687,288 +803,29 @@ function Scene4({ onNext }: { onNext: () => void }) {
         <Divider />
 
         <h3 className="font-[family-name:var(--font-cinzel)] text-sm font-semibold text-[#f5e199] mb-3">
-          🔗 Match It: Xylem or Phloem?
+          ⚡ Quick Check: Chlorophyll
         </h3>
-        <p className="text-[#f5e199cc] text-xs mb-4 font-[family-name:var(--font-crimson)]">
-          Tap a structure on the left, then tap its matching description on the right.
-        </p>
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <p className="font-[family-name:var(--font-cinzel)] text-xs text-[#c9a84c] text-center mb-2 tracking-wider uppercase">Structure</p>
-            {matchItems.map(m => (
-              <motion.button
-                key={m.id}
-                onClick={() => {
-                  if (matchChecked) return;
-                  setMatchAnswers(prev => ({ ...prev, selected: m.id }));
-                }}
-                className={`w-full text-center p-2 rounded-xl mb-2 text-xs font-[family-name:var(--font-cinzel)] border transition-all cursor-pointer ${
-                  matchAnswers[m.id]
-                    ? "border-[#4caf7d55] bg-[#4caf7d11] text-[#4caf7d]"
-                    : matchAnswers.selected === m.id
-                    ? "border-[#f5e199] bg-[#331870] text-[#f5e199]"
-                    : "border-[#c9a84c33] bg-[#1a0d45] text-[#f5e199] hover:border-[#c9a84c]"
-                }`}
-              >
-                {m.structure}
-              </motion.button>
-            ))}
-          </div>
-          <div>
-            <p className="font-[family-name:var(--font-cinzel)] text-xs text-[#c9a84c] text-center mb-2 tracking-wider uppercase">Description</p>
-            {shuffledAnswers.map(ans => (
-              <motion.button
-                key={ans}
-                onClick={() => {
-                  if (matchChecked || !matchAnswers.selected) return;
-                  const selectedId = matchAnswers.selected;
-                  const correct = matchItems.find(m => m.id === selectedId)?.answer === ans;
-                  if (correct) {
-                    setMatchAnswers(prev => ({ ...prev, [selectedId]: ans, selected: "" }));
-                  } else {
-                    setMatchAnswers(prev => ({ ...prev, selected: "" }));
-                  }
-                }}
-                className={`w-full text-left p-2 rounded-xl mb-2 text-xs font-[family-name:var(--font-crimson)] border transition-all cursor-pointer leading-snug ${
-                  Object.values(matchAnswers).includes(ans)
-                    ? "border-[#4caf7d55] bg-[#4caf7d11] text-[#4caf7d]"
-                    : "border-[#c9a84c33] bg-[#1a0d45] text-[#f5e199cc] hover:border-[#c9a84c]"
-                }`}
-              >
-                {ans}
-              </motion.button>
-            ))}
-          </div>
-        </div>
-        {Object.keys(matchAnswers).filter(k => k !== "selected").length === 4 && (
-          <motion.p
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-3 text-center text-[#4caf7d] font-[family-name:var(--font-cinzel)] text-sm"
-          >
-            ✦ All matched correctly! You know your vascular tissue!
-          </motion.p>
-        )}
-      </Card>
-
-      <div className="text-center">
-        <GoldBtn onClick={onNext}>Next: Plant Cell Structures →</GoldBtn>
-      </div>
-    </motion.div>
-  );
-}
-
-// ══════════════════════════════════════════════════════════════
-// SCENE 5 — PLANT CELL STRUCTURES
-// ══════════════════════════════════════════════════════════════
-function Scene5({ onNext }: { onNext: () => void }) {
-  const [revealed, setRevealed] = useState<Set<string>>(new Set());
-  const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
-  const [quizChecked, setQuizChecked] = useState(false);
-
-  const cellParts = [
-    {
-      id: "cellwall",
-      name: "Cell Wall",
-      word: "cell wall",
-      icon: "🧱",
-      color: "text-[#c9a84c]",
-      desc: "A stiff outer layer made of cellulose that surrounds the cell membrane. Gives the plant cell its rigid shape and protects it. Only plant cells have this — animal cells do not!",
-      analogy: "Like the brick walls of a house — provides structure and protection.",
-      function: "Support, protection, and shape",
-    },
-    {
-      id: "cellmembrane",
-      name: "Cell Membrane",
-      word: "cell membrane",
-      icon: "🫧",
-      color: "text-[#7d9fc9]",
-      desc: "A thin, flexible layer just inside the cell wall. Controls what goes in and out of the cell — like a security guard for the cell.",
-      analogy: "Like the door of the house — controls who comes in and who goes out.",
-      function: "Controls what enters and exits the cell",
-    },
-    {
-      id: "chloroplast",
-      name: "Chloroplast",
-      word: "chloroplast",
-      icon: "🟢",
-      color: "text-[#4caf7d]",
-      desc: "The green organelle where photosynthesis happens. Contains chlorophyll which captures sunlight. Only found in plant cells and algae — this is what makes plants unique!",
-      analogy: "Like the kitchen of the house — where all the food is made.",
-      function: "Photosynthesis — makes food using sunlight",
-    },
-    {
-      id: "vacuole",
-      name: "Central Vacuole",
-      word: "vacuole",
-      icon: "💧",
-      color: "text-[#7d9fc9]",
-      desc: "A large storage compartment filled with water and other substances. Takes up most of the space in a mature plant cell. When full of water, it keeps the plant firm and upright — when empty, the plant wilts!",
-      analogy: "Like the water tank of the house — stores water and helps maintain pressure.",
-      function: "Water storage, maintains cell pressure (turgor)",
-    },
-    {
-      id: "nucleus",
-      name: "Nucleus",
-      word: "nucleus",
-      icon: "🧠",
-      color: "text-[#c9a84c]",
-      desc: "The control center of the cell. Contains DNA — the instructions for everything the cell does. Found in both plant and animal cells.",
-      analogy: "Like the brain of the house — controls all operations.",
-      function: "Controls cell activities, contains DNA",
-    },
-  ];
-
-  const quickQuestions = [
-    {
-      id: "q1",
-      q: "Which organelle is ONLY found in plant cells and is where photosynthesis happens?",
-      options: ["Nucleus", "Cell membrane", "Chloroplast", "Vacuole"],
-      correct: "Chloroplast",
-    },
-    {
-      id: "q2",
-      q: "When a plant wilts, which organelle has lost water?",
-      options: ["Nucleus", "Central Vacuole", "Cell Wall", "Chloroplast"],
-      correct: "Central Vacuole",
-    },
-    {
-      id: "q3",
-      q: "What makes a plant cell different from an animal cell?",
-      options: [
-        "Plant cells have a nucleus, animal cells do not",
-        "Plant cells have a cell wall and chloroplasts, animal cells do not",
-        "Animal cells have a cell membrane, plant cells do not",
-        "They are exactly the same",
-      ],
-      correct: "Plant cells have a cell wall and chloroplasts, animal cells do not",
-    },
-  ];
-
-  const allAnswered = quickQuestions.every(q => quizAnswers[q.id]);
-
-  return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-      <Axo
-        mood="excited"
-        message="Now we zoom in to the microscopic level — inside a single plant cell! 🔬<br/><br/>Every plant cell has specialized structures called <strong>organelles</strong> — each one has a specific job. This is structure and function at the CELLULAR level!<br/><br/>Tap each organelle to learn what it does!"
-      />
-        <div className="flex items-center gap-2 -mt-4 mb-6 px-5">
-        <p className="text-[#c9a84c99] text-xs font-[family-name:var(--font-cinzel)]">Tap to hear:</p>
-        <span className="text-[#f5e199] text-xs font-[family-name:var(--font-crimson)]">organelle</span>
-        <Pronounce word="organelle" />
-        </div>
-
-
-      <Card>
-        <h2 className="font-[family-name:var(--font-cinzel)] text-lg font-semibold text-[#f5e199] mb-4 pb-3 border-b border-[#c9a84c22]">
-          🔬 Inside a Plant Cell
-        </h2>
-
-        {/* Plant cell image */}
-        <div className="mb-6">
-          <ImageModal src="/images/plantcell.jpg" alt="Plant cell components diagram" />
-        </div>
-
-        <div className="space-y-3">
-          {cellParts.map((p, i) => (
-            <motion.div
-              key={p.id}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.1 }}
-              onClick={() => setRevealed(prev => {
-                const next = new Set(prev);
-                next.has(p.id) ? next.delete(p.id) : next.add(p.id);
-                return next;
-              })}
-              className={`rounded-xl p-4 cursor-pointer border transition-all ${
-                revealed.has(p.id)
-                  ? "border-[#4caf7d55] bg-[#4caf7d0a]"
-                  : "border-[#c9a84c33] bg-[#1a0d45] hover:border-[#c9a84c]"
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <span className="text-xl">{p.icon}</span>
-                <div className="flex-1">
-                  <div className="flex items-center gap-1">
-                    <p className={`font-[family-name:var(--font-cinzel)] text-sm font-bold ${p.color}`}>{p.name}</p>
-                    <Pronounce word={p.word} />
-                  </div>
-                  <p className="text-[#c9a84c99] text-xs">Function: {p.function}</p>
-                </div>
-                <span className="text-[#c9a84c55] text-xs">{revealed.has(p.id) ? "▲" : "▼"}</span>
-              </div>
-              <AnimatePresence>
-                {revealed.has(p.id) && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="mt-3 space-y-2"
-                  >
-                    <div className="bg-[#1a0d45] rounded-lg p-3 border border-[#c9a84c22]">
-                      <p className="text-[#f5e199cc] text-xs leading-relaxed">{p.desc}</p>
-                      {p.id === "cellwall" && (
-                        <div className="flex items-center gap-1 mt-2">
-                          <span className="text-[#c9a84c99] text-xs">hear:</span>
-                          <span className="text-[#f5e199cc] text-xs">cellulose</span>
-                          <Pronounce word="cellulose" />
-                        </div>
-                      )}
-                      {p.id === "vacuole" && (
-                        <div className="flex items-center gap-1 mt-2">
-                          <span className="text-[#c9a84c99] text-xs">hear:</span>
-                          <span className="text-[#f5e199cc] text-xs">turgor</span>
-                          <Pronounce word="turgor" />
-                        </div>
-                      )}
-                    </div>
-                    <div className="bg-[#1a0d45] rounded-lg p-3 border border-[#c9a84c22]">
-                      <p className="font-[family-name:var(--font-cinzel)] text-xs text-[#c9a84c] mb-1">🧠 Think of it like...</p>
-                      <p className="text-[#f5e199cc] text-xs italic leading-relaxed">{p.analogy}</p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
-        </div>
-      </Card>
-
-      <Axo
-        mood="thinking"
-        message="Quick check before we move on! Three questions about plant cell structures — let's see what stuck!"
-      />
-
-      <Card>
-        <h2 className="font-[family-name:var(--font-cinzel)] text-lg font-semibold text-[#f5e199] mb-4 pb-3 border-b border-[#c9a84c22]">
-          ⚡ Quick Check: Plant Cell Structures
-        </h2>
-        {quickQuestions.map((q, qi) => {
-          const chosen = quizAnswers[q.id];
+        {chloroQuestions.map((q, qi) => {
+          const chosen = chloroAnswers[q.id];
           const isCorrect = chosen === q.correct;
           return (
-            <div key={q.id} className="mb-4 pb-4 border-b border-[#c9a84c11] last:border-0">
+            <div key={q.id} className="mb-4">
               <p className="text-[#f5e199] text-sm font-[family-name:var(--font-crimson)] mb-2">{qi + 1}. {q.q}</p>
               <div className="space-y-1">
-                {q.options.map(opt => {
+                {q.options.map((opt, oi) => {
                   let style = "border-[#c9a84c33] bg-[#1a0d45] text-[#f5e199cc] hover:border-[#c9a84c]";
-                  if (quizChecked) {
-                    if (opt === q.correct) style = "border-[#4caf7d] bg-[#4caf7d22] text-[#4caf7d]";
-                    else if (opt === chosen && !isCorrect) style = "border-[#e24b4a] bg-[#e24b4a11] text-[#e24b4a]";
+                  if (chloroChecked) {
+                    if (oi === q.correct) style = "border-[#4caf7d] bg-[#4caf7d22] text-[#4caf7d]";
+                    else if (oi === chosen && !isCorrect) style = "border-[#e24b4a] bg-[#e24b4a11] text-[#e24b4a]";
                     else style = "border-[#c9a84c22] text-[#f5e199cc]";
-                  } else if (chosen === opt) {
+                  } else if (chosen === oi) {
                     style = "border-[#f5e199] bg-[#331870] text-[#f5e199]";
                   }
                   return (
                     <button
-                      key={opt}
-                      onClick={() => {
-                        if (quizChecked) return;
-                        setQuizAnswers(prev => ({ ...prev, [q.id]: opt }));
-                      }}
-                      disabled={quizChecked}
+                      key={oi}
+                      onClick={() => { if (chloroChecked) return; setChloroAnswers(prev => ({ ...prev, [q.id]: oi })); }}
+                      disabled={chloroChecked}
                       className={`w-full text-left px-3 py-2 rounded-lg text-xs font-[family-name:var(--font-crimson)] border transition-all cursor-pointer ${style}`}
                     >
                       {opt}
@@ -979,12 +836,12 @@ function Scene5({ onNext }: { onNext: () => void }) {
             </div>
           );
         })}
-        {!quizChecked && (
+        {!chloroChecked && (
           <div className="text-center">
             <motion.button
-              whileHover={{ scale: allAnswered ? 1.02 : 1 }}
-              onClick={() => setQuizChecked(true)}
-              disabled={!allAnswered}
+              whileHover={{ scale: allChloroAnswered ? 1.02 : 1 }}
+              onClick={() => setChloroChecked(true)}
+              disabled={!allChloroAnswered}
               className="px-6 py-2 rounded-full font-[family-name:var(--font-cinzel)] text-xs tracking-widest text-[#1a0d45] disabled:opacity-50"
               style={{ background: "linear-gradient(135deg, #b8922a, #f5e199, #b8922a)" }}
             >
@@ -992,20 +849,97 @@ function Scene5({ onNext }: { onNext: () => void }) {
             </motion.button>
           </div>
         )}
-        {quizChecked && (
-          <motion.p
+      </Card>
+
+      <Card>
+        <h2 className="font-[family-name:var(--font-cinzel)] text-lg font-semibold text-[#f5e199] mb-4 pb-3 border-b border-[#c9a84c22]">
+          💨 <span className="inline-flex items-center gap-1">Stomata <Pronounce word="stomata" /></span> — The Gas Gates
+        </h2>
+
+        <p className="text-[#f5e199cc] text-sm leading-relaxed mb-4">
+          You learned about stomata in Lesson 2. Now let's see exactly how they work during photosynthesis!
+        </p>
+
+        <ImageModal src="/images/science/plants/stoma.avif" alt="Stomata open and closed diagram" />
+
+        <div className="space-y-3 mt-4">
+          {[
+            { icon: "🔓", title: "Open stomata", desc: "During the day when there's sunlight, stomata OPEN to let CO₂ in from the air. This is the raw material the plant needs for photosynthesis." },
+            { icon: "🔒", title: "Closed stomata", desc: "At night or when it's dry, stomata CLOSE to prevent water loss. The plant pauses photosynthesis since there's no sunlight anyway." },
+            { icon: "💧", title: "Transpiration", desc: "When stomata are open, water vapor also escapes — this is called transpiration. It's why plants need a constant water supply through their roots!" },
+          ].map((item, i) => (
+            <motion.div
+              key={item.title}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.1 }}
+            >
+              <Highlight>
+                <p className="text-[#f5e199] text-sm leading-relaxed">
+                  {item.icon} <strong>{item.title}</strong> — {item.desc}
+                </p>
+              </Highlight>
+            </motion.div>
+          ))}
+        </div>
+
+        <Divider />
+
+        <h3 className="font-[family-name:var(--font-cinzel)] text-sm font-semibold text-[#f5e199] mb-3">
+          🔍 Quick Check: Stomata
+        </h3>
+        <p className="text-[#f5e199cc] text-sm mb-3 font-[family-name:var(--font-crimson)]">
+          A plant is in the middle of a hot, dry afternoon. It has been photosynthesizing all day. What will its stomata most likely do and why?
+        </p>
+        <div className="space-y-2">
+          {[
+            { label: "Stay open to keep absorbing CO₂ for photosynthesis", correct: false },
+            { label: "Close to prevent too much water loss through transpiration", correct: true },
+            { label: "Open wider to absorb more sunlight", correct: false },
+            { label: "Close permanently for the rest of the day", correct: false },
+          ].map((opt, i) => {
+            const isSelected = stomataAnswer === opt.label;
+            const showResult = stomataAnswer !== null;
+            let style = "border-[#c9a84c33] bg-[#1a0d45] text-[#f5e199cc] hover:border-[#c9a84c]";
+            if (showResult) {
+              if (opt.correct) style = "border-[#4caf7d] bg-[#4caf7d22] text-[#4caf7d]";
+              else if (isSelected && !opt.correct) style = "border-[#e24b4a] bg-[#e24b4a11] text-[#e24b4a]";
+              else style = "border-[#c9a84c22] text-[#f5e199cc]";
+            } else if (isSelected) {
+              style = "border-[#f5e199] bg-[#331870] text-[#f5e199]";
+            }
+            return (
+              <button
+                key={i}
+                onClick={() => { if (!stomataAnswer) setStomataAnswer(opt.label); }}
+                disabled={!!stomataAnswer}
+                className={`w-full text-left px-4 py-2 rounded-xl text-sm font-[family-name:var(--font-crimson)] border transition-all cursor-pointer ${style}`}
+              >
+                {opt.label}
+              </button>
+            );
+          })}
+        </div>
+        {stomataAnswer && (
+          <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center text-[#4caf7d] font-[family-name:var(--font-cinzel)] text-sm mt-3"
+            className={`mt-3 p-3 rounded-xl text-xs leading-relaxed ${
+              stomataAnswer === "Close to prevent too much water loss through transpiration"
+                ? "bg-[#4caf7d11] border border-[#4caf7d33] text-[#4caf7d]"
+                : "bg-[#e24b4a11] border border-[#e24b4a33] text-[#e24b4acc]"
+            }`}
           >
-            ✦ Great work! Now let's connect it all together!
-          </motion.p>
+            {stomataAnswer === "Close to prevent too much water loss through transpiration"
+              ? "✦ Correct! On hot dry days stomata close to conserve water — the plant sacrifices some photosynthesis to survive!"
+              : "The stomata would close — on hot dry days the plant needs to conserve water more than it needs to photosynthesize. Survival first!"}
+          </motion.div>
         )}
       </Card>
 
       <div className="text-center">
-        <GoldBtn onClick={onNext} disabled={!quizChecked}>
-          {quizChecked ? "Next: Connect It All →" : "Complete the quick check first!"}
+        <GoldBtn onClick={onNext} disabled={!stomataAnswer || !chloroChecked}>
+          {stomataAnswer && chloroChecked ? "Next: Bonus Scientist View! 🔬" : "Complete both activities first!"}
         </GoldBtn>
       </div>
     </motion.div>
@@ -1013,92 +947,87 @@ function Scene5({ onNext }: { onNext: () => void }) {
 }
 
 // ══════════════════════════════════════════════════════════════
-// SCENE 6 — CONNECTING IT ALL + FIELD JOURNAL
+// SCENE 6 — BONUS SCIENTIST + WHY IT MATTERS + FIELD JOURNAL
 // ══════════════════════════════════════════════════════════════
 function Scene6({ onNext }: { onNext: () => void }) {
   const [journal, setJournal] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  const connections = [
-    {
-      from: "Roots absorb water",
-      arrow: "→",
-      to: "Xylem carries it UP through the stem",
-      then: "→ Water reaches leaf cells",
-    },
-    {
-      from: "Chloroplasts in leaf cells",
-      arrow: "→",
-      to: "Use water + sunlight + CO₂ to make glucose",
-      then: "→ Photosynthesis!",
-    },
-    {
-      from: "Glucose (food) is made",
-      arrow: "→",
-      to: "Phloem carries it DOWN through the stem",
-      then: "→ Feeds roots, stems, flowers",
-    },
-    {
-      from: "Central vacuole fills with water",
-      arrow: "→",
-      to: "Creates pressure that keeps plant firm",
-      then: "→ Plant stands upright!",
-    },
-  ];
-
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <Axo
         mood="proud"
-        message="Detective — you've just learned something incredible. Let me show you how ALL of this connects together into one beautiful system! 🌿<br/><br/>Every structure we've studied — from the roots all the way to the tiny chloroplasts inside leaf cells — they all work together. This is what scientists call a <strong>system!</strong>"
+        message="You've earned the Bonus Scientist View today! 🔬<br/><br/>This next diagram shows what's happening INSIDE a chloroplast during photosynthesis. Scientists spend years studying this. You don't need to memorize any of these details — just appreciate how incredibly complex and beautiful this process is!<br/><br/>The stacks you see are called <strong>thylakoids</strong> — that's where the light reactions happen. The fluid around them is the <strong>stroma</strong> — where glucose is made."
       />
 
       <Card>
-        <h2 className="font-[family-name:var(--font-cinzel)] text-lg font-semibold text-[#f5e199] mb-4 pb-3 border-b border-[#c9a84c22]">
-          🔗 How It All Connects
+        <h2 className="font-[family-name:var(--font-cinzel)] text-lg font-semibold text-[#f5e199] mb-2 pb-3 border-b border-[#c9a84c22]">
+          🔬 Bonus Scientist View: Inside a <span className="inline-flex items-center gap-1">Chloroplast <Pronounce word="chloroplast" /></span>
         </h2>
-        <div className="space-y-3">
-          {connections.map((c, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.15 }}
-              className="bg-[#1a0d45] border border-[#c9a84c22] rounded-xl p-4"
-            >
-              <div className="flex flex-wrap items-center gap-2 text-sm font-[family-name:var(--font-crimson)]">
-                <span className="text-[#f5e199] font-semibold">{c.from}</span>
-                <span className="text-[#c9a84c]">{c.arrow}</span>
-                <span className="text-[#f5e199cc]">{c.to}</span>
-                <span className="text-[#4caf7d]">{c.then}</span>
+        <div className="bg-[#1a0d45] border border-[#c9a84c33] rounded-xl p-3 mb-4 mt-4">
+          <p className="font-[family-name:var(--font-cinzel)] text-xs text-[#c9a84c] mb-1">⭐ Bonus Knowledge — Beyond 4th Grade!</p>
+          <p className="text-[#f5e199cc] text-xs">This is what real plant scientists study. You're looking at it early — just enjoy the detail!</p>
+        </div>
+        <ImageModal src="/images/science/plants/chloroplast-anatomy.png" alt="Chloroplast anatomy diagram" />
+        <div className="mt-4 space-y-2">
+          {[
+            { term: "Thylakoid", pronounce: "thylakoid", desc: "The flat disc-shaped structures stacked like pancakes. Light reactions happen here." },
+            { term: "Grana", pronounce: "grana", desc: "A stack of thylakoids. Each chloroplast has many grana." },
+            { term: "Stroma", pronounce: "stroma", desc: "The fluid surrounding the thylakoids. This is where glucose (sugar) is made." },
+          ].map(item => (
+            <div key={item.term} className="bg-[#1a0d45] border border-[#c9a84c22] rounded-xl p-3 flex items-start gap-3">
+              <div>
+                <div className="flex items-center gap-1 mb-1">
+                  <p className="font-[family-name:var(--font-cinzel)] text-xs text-[#f5e199]">{item.term}</p>
+                  <Pronounce word={item.pronounce} />
+                </div>
+                <p className="text-[#c9a84c99] text-xs leading-relaxed">{item.desc}</p>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
+      </Card>
 
-        <Divider />
-
-        <div className="bg-[#1a0d45] border border-[#c9a84c55] rounded-xl p-4">
-          <p className="font-[family-name:var(--font-cinzel)] text-xs text-[#c9a84c] mb-2">🌟 The Big Picture</p>
-          <p className="text-[#f5e199cc] text-sm leading-relaxed">
-            Every internal structure of a plant exists for a reason. The <VocabTerm word="cell wall">cell wall</VocabTerm> gives it shape, the <VocabTerm word="chloroplast">chloroplasts</VocabTerm> make food, the <VocabTerm word="vacuole">vacuole</VocabTerm> stores water, and the <VocabTerm word="vascular">vascular</VocabTerm> system moves everything where it needs to go. Structure always serves function!
-          </p>
+      <Card>
+        <h2 className="font-[family-name:var(--font-cinzel)] text-lg font-semibold text-[#f5e199] mb-4 pb-3 border-b border-[#c9a84c22]">
+          🌍 Why Photosynthesis Matters to Everyone
+        </h2>
+        <div className="space-y-3">
+          {[
+            { icon: "🫁", title: "Every breath you take", desc: "The oxygen in Earth's atmosphere comes from photosynthesis. Every time you breathe in, you're breathing plant-made oxygen." },
+            { icon: "🍎", title: "All the food you eat", desc: "Whether you eat plants directly (vegetables, fruit, grains) or animals (which ate plants), ALL food energy on Earth traces back to photosynthesis." },
+            { icon: "🌡️", title: "Climate regulation", desc: "Plants absorb CO₂ — one of the gases causing climate change — and convert it to oxygen. Forests are Earth's lungs." },
+            { icon: "⛽", title: "The fuel in cars", desc: "Fossil fuels (coal, oil, gas) are ancient plant matter — photosynthesis energy stored underground for millions of years!" },
+          ].map((item, i) => (
+            <motion.div
+              key={item.title}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.1 }}
+            >
+              <Highlight>
+                <p className="text-[#f5e199] text-sm leading-relaxed">
+                  {item.icon} <strong>{item.title}</strong> — {item.desc}
+                </p>
+              </Highlight>
+            </motion.div>
+          ))}
         </div>
       </Card>
 
       <Axo
         mood="thinking"
-        message="Before the quiz, time for your Field Journal! 📓 This is one of the most important parts of being a scientist — writing down what you've learned in your own words helps it move from short-term to long-term memory.<br/><br/>Take your time with this one!"
+        message="That's the scale of what we've been studying, Detective. A process happening in a microscopic organelle — inside a leaf cell — is literally keeping every living thing on Earth alive. 🌍<br/><br/>Now write about it in your Field Journal. This is a big one!"
       />
 
       <Card>
         <h2 className="font-[family-name:var(--font-cinzel)] text-lg font-semibold text-[#f5e199] mb-4 pb-3 border-b border-[#c9a84c22]">
-          📓 Field Journal — Lesson 4
+          📓 Field Journal — Lesson 5
         </h2>
         <div className="bg-[#1a0d45] border border-[#c9a84c33] rounded-xl p-4 mb-4">
           <p className="font-[family-name:var(--font-cinzel)] text-xs text-[#c9a84c] mb-2">Today's Prompt</p>
           <p className="text-[#f5e199] text-base leading-relaxed">
-            Choose ONE internal plant structure (xylem, phloem, chloroplast, vacuole, or cell wall) and explain: what does it look like, what does it do, and why would the plant die without it?
+            Explain photosynthesis in your own words — what goes in, what comes out, and where it happens. Then explain why photosynthesis is important to YOU personally.
           </p>
         </div>
         <textarea
@@ -1130,7 +1059,7 @@ function Scene6({ onNext }: { onNext: () => void }) {
             animate={{ opacity: 1, y: 0 }}
             className="bg-[#4caf7d11] border border-[#4caf7d33] rounded-xl p-4 text-center"
           >
-            <p className="text-[#4caf7d] font-[family-name:var(--font-cinzel)] text-sm">✦ Journal entry saved! Excellent scientific writing!</p>
+            <p className="text-[#4caf7d] font-[family-name:var(--font-cinzel)] text-sm">✦ Journal entry saved! Outstanding scientific thinking!</p>
           </motion.div>
         )}
       </Card>
@@ -1149,90 +1078,105 @@ function Scene6({ onNext }: { onNext: () => void }) {
 // ══════════════════════════════════════════════════════════════
 const QUIZ_QUESTIONS = [
   {
-    q: "What is the main job of xylem in a plant?",
+    q: "Which of the following correctly lists all the ingredients a plant needs for photosynthesis?",
     options: [
-      "To carry sugar made in leaves down to the roots",
-      "To carry water and minerals up from roots to leaves",
-      "To control what enters and exits the cell",
-      "To make food through photosynthesis",
+      "Glucose, oxygen, and sunlight",
+      "Sunlight, water, and carbon dioxide",
+      "Chlorophyll, oxygen, and water",
+      "Carbon dioxide, glucose, and minerals",
     ],
     correct: 1,
     feedback: {
-      right: "✦ Correct! Xylem carries water and minerals UP — remember, X for eXit from roots going up!",
-      wrong: "Xylem carries water and minerals UP from roots to leaves. Phloem carries food DOWN.",
+      right: "✦ Correct! Sunlight + water + CO₂ are the three ingredients. Chlorophyll is the tool, not an ingredient!",
+      wrong: "The three ingredients are sunlight, water (H₂O), and carbon dioxide (CO₂). Chlorophyll is the pigment that captures the sunlight.",
     },
   },
   {
-    q: "What is the process called when phloem moves sugar from the leaves to other parts of the plant?",
-    options: ["Transpiration", "Photosynthesis", "Translocation", "Germination"],
+    q: "Where exactly does photosynthesis take place inside a plant cell?",
+    options: ["In the nucleus", "In the vacuole", "In the chloroplast", "In the cell wall"],
     correct: 2,
     feedback: {
-      right: "✦ Excellent! Translocation — the movement of food through phloem!",
-      wrong: "The movement of food through phloem is called translocation. Transpiration is water loss through leaves.",
+      right: "✦ Right! Chloroplasts are the organelles where photosynthesis happens — that's their whole job!",
+      wrong: "Photosynthesis happens in the chloroplasts — the green organelles that contain chlorophyll.",
     },
   },
   {
-    q: "Which plant cell organelle is responsible for photosynthesis?",
-    options: ["Cell wall", "Vacuole", "Nucleus", "Chloroplast"],
+    q: "What is the main product of photosynthesis that the plant uses as food?",
+    options: ["Oxygen", "Carbon dioxide", "Water", "Glucose"],
     correct: 3,
     feedback: {
-      right: "✦ Right! Chloroplasts contain chlorophyll and are where photosynthesis happens!",
-      wrong: "Chloroplasts are the green organelles where photosynthesis happens. They contain chlorophyll.",
+      right: "✦ Excellent! Glucose is the sugar/food the plant makes. Oxygen is the byproduct released into the air!",
+      wrong: "Glucose (sugar) is the food the plant makes through photosynthesis. Oxygen is released as a byproduct.",
     },
   },
   {
-    q: "A plant has been without water for several days and starts to wilt. Which organelle has lost water causing this?",
-    options: ["Chloroplast", "Nucleus", "Central Vacuole", "Cell Wall"],
-    correct: 2,
-    feedback: {
-      right: "✦ Correct! The central vacuole stores water — when it loses water, the plant loses pressure and wilts!",
-      wrong: "The central vacuole stores water and maintains turgor pressure. When empty, the plant wilts.",
-    },
-  },
-  {
-    q: "Which of the following is found in plant cells but NOT in animal cells?",
-    options: ["Nucleus", "Cell membrane", "Cell wall and chloroplasts", "DNA"],
-    correct: 2,
-    feedback: {
-      right: "✦ Perfect! Cell walls and chloroplasts are unique to plant cells — this is what makes plants special!",
-      wrong: "Plant cells have cell walls (for structure) and chloroplasts (for photosynthesis) that animal cells lack.",
-    },
-  },
-  {
-    q: "Maple syrup comes from the sap of maple trees. Based on what you learned, which vascular tissue does this sap travel through?",
-    options: ["Xylem, because it carries water upward", "Phloem, because it carries sugar made in the leaves", "The cell wall, because it provides structure", "The vacuole, because it stores liquids"],
+    q: "Why are most plant leaves green?",
+    options: [
+      "Because they absorb green light and reflect all other colors",
+      "Because chlorophyll is a green pigment that reflects green light",
+      "Because glucose is green in color",
+      "Because water makes plants appear green",
+    ],
     correct: 1,
     feedback: {
-      right: "✦ Outstanding! Maple sap is sugar solution traveling through phloem — that's translocation in action!",
-      wrong: "Maple sap is sugary — it's food made in the leaves traveling through phloem (translocation)!",
+      right: "✦ Correct! Chlorophyll absorbs red and blue light but reflects green — that reflected green is what we see!",
+      wrong: "Chlorophyll is a green pigment that absorbs red and blue light but reflects green light back to our eyes.",
     },
   },
   {
-    q: "A student examines two cells under a microscope. Cell A has a cell wall, chloroplasts, and a large vacuole. Cell B has none of these. What can the student conclude?",
+    q: "A student covers all the leaves of a plant with black paper for two weeks so no light can reach them. What will most likely happen?",
     options: [
-      "Cell A is a plant cell and Cell B is an animal cell",
-      "Cell A is an animal cell and Cell B is a plant cell",
-      "Both cells are plant cells",
-      "Both cells are animal cells",
-    ],
-    correct: 0,
-    feedback: {
-      right: "✦ Correct! Cell wall + chloroplasts + large vacuole = plant cell. Cell B is an animal cell!",
-      wrong: "Cell wall, chloroplasts, and large vacuole are all unique to plant cells. So Cell A is a plant cell and Cell B is an animal cell.",
-    },
-  },
-  {
-    q: "Why is the cell wall important to a plant? Choose the BEST answer.",
-    options: [
-      "It makes food for the plant using sunlight",
-      "It controls what substances enter and exit the cell",
-      "It provides rigid structure and support, helping the plant stand upright",
-      "It stores water to prevent wilting",
+      "The plant will grow faster because it's protected",
+      "Nothing will change — plants don't need light",
+      "The plant will eventually die because it can't photosynthesize to make food",
+      "The plant will switch to absorbing food through its roots instead",
     ],
     correct: 2,
     feedback: {
-      right: "✦ Excellent! The cell wall gives plant cells their rigid shape and supports the plant's structure!",
-      wrong: "The cell wall provides rigid structure and support. The cell membrane controls what enters/exits. Chloroplasts make food. The vacuole stores water.",
+      right: "✦ Correct! No light = no photosynthesis = no glucose = plant starves. Light is essential!",
+      wrong: "Without light, the plant can't photosynthesize, so it can't make glucose (food). It will eventually use up its stored energy and die.",
+    },
+  },
+  {
+    q: "Stomata open during the day to let carbon dioxide in. What is the trade-off of having open stomata?",
+    options: [
+      "The plant absorbs too much sunlight",
+      "The plant loses water vapor through transpiration",
+      "The plant takes in too much oxygen",
+      "The plant produces too much glucose",
+    ],
+    correct: 1,
+    feedback: {
+      right: "✦ Right! Open stomata let CO₂ in but also let water vapor out — that's the transpiration trade-off!",
+      wrong: "When stomata open to let CO₂ in, water vapor also escapes — this is called transpiration. That's why plants close their stomata in hot, dry conditions.",
+    },
+  },
+  {
+    q: "According to the video, what happens to plants at night when there is no sunlight?",
+    options: [
+      "They photosynthesize faster to catch up",
+      "They take in oxygen and release carbon dioxide — like humans breathe",
+      "They absorb moonlight instead of sunlight",
+      "They shut down completely and stop all processes",
+    ],
+    correct: 1,
+    feedback: {
+      right: "✦ Correct! At night plants respire like animals — taking in O₂ and releasing CO₂. Quite the opposite of daytime!",
+      wrong: "At night, without sunlight to photosynthesize, plants breathe like animals — taking in oxygen and releasing carbon dioxide.",
+    },
+  },
+  {
+    q: "A scientist discovers a new plant species that has white leaves instead of green. What can she conclude about this plant's ability to photosynthesize?",
+    options: [
+      "It photosynthesize more efficiently because white reflects more sunlight",
+      "It likely cannot photosynthesize effectively because it lacks chlorophyll",
+      "It produces more oxygen because white is purer than green",
+      "It uses a different gas instead of carbon dioxide",
+    ],
+    correct: 1,
+    feedback: {
+      right: "✦ Outstanding scientific reasoning! White leaves = no chlorophyll = no photosynthesis. This plant would need another food source!",
+      wrong: "Green color comes from chlorophyll. White leaves suggest no chlorophyll, which means the plant can't capture sunlight for photosynthesis.",
     },
   },
 ];
@@ -1258,7 +1202,7 @@ function Scene7({ onFinish }: { onFinish: (score: number) => void }) {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <Axo
         mood="excited"
-        message="You've gone from the roots all the way down to the inside of a single cell — that's incredible science! 🔬<br/><br/>Now it's time for your <strong>final quiz</strong> — 8 questions this time because you've learned a LOT today! I believe in you, Detective! 💪"
+        message="You've connected roots, xylem, chloroplasts, stomata, chlorophyll — and now photosynthesis! That's 5 lessons of knowledge all coming together! 🌿<br/><br/>8 questions — your biggest quiz yet. I know you're ready. Let's go! 💪"
       />
 
       {QUIZ_QUESTIONS.map((q, qi) => {
@@ -1333,12 +1277,12 @@ function Scene8({ score, onRestart }: { score: number; onRestart: () => void }) 
   const pct = Math.round((score / 8) * 100);
 
   const config = pct === 100
-    ? { mood: "proud" as AxoMood, msg: "PERFECT SCORE on an 8-question quiz! 🎉 You went from roots to cells and aced every question! You are a true plant scientist! See you in Lesson 5 — photosynthesis!", scoreMsg: "🌟 Perfect Score! Every question correct — incredible!" }
+    ? { mood: "proud" as AxoMood, msg: "PERFECT SCORE! 🎉 You just aced a lesson that most students don't see until middle school! You are an absolute science superstar! I am SO proud of you, Detective!", scoreMsg: "🌟 Perfect Score! Every question correct — you are a plant science expert!" }
     : pct >= 80
-    ? { mood: "excited" as AxoMood, msg: "Outstanding work Detective! 🌿 You really understand plant internal structures. Review the ones you missed and you'll be unstoppable in Lesson 5!", scoreMsg: "🌿 Excellent! Strong understanding of internal plant structures." }
+    ? { mood: "excited" as AxoMood, msg: "Outstanding work! 🌿 Photosynthesis is one of the most important concepts in all of biology and you nailed it! Check the ones you missed and get ready for Lesson 6!", scoreMsg: "🌿 Excellent! Strong understanding of photosynthesis — well done!" }
     : pct >= 60
-    ? { mood: "neutral" as AxoMood, msg: "Good effort! 🌱 Some of those cell organelles can be tricky. Review xylem, phloem, and chloroplasts before Lesson 5 — you've got this!", scoreMsg: "🌱 Good work! Review organelles before moving on." }
-    : { mood: "encouraging" as AxoMood, msg: "Don't give up — internal structures are challenging! 🔬 Let's go back through the lesson together. You'll get it!", scoreMsg: "🔬 Keep going! Review the lesson and try again." };
+    ? { mood: "neutral" as AxoMood, msg: "Good effort! 🌱 Photosynthesis has a lot of moving parts — review the inputs, outputs, and where it happens before Lesson 6. You've got this!", scoreMsg: "🌱 Good work! Review the key inputs/outputs before moving on." }
+    : { mood: "encouraging" as AxoMood, msg: "Don't give up! 🔬 Photosynthesis takes time to really sink in. Let's go back through the lesson together — you'll get it!", scoreMsg: "🔬 Keep going! Review the lesson carefully and try again." };
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
@@ -1358,7 +1302,7 @@ function Scene8({ score, onRestart }: { score: number; onRestart: () => void }) 
           {score}/8
         </motion.p>
         <p className="font-[family-name:var(--font-cinzel)] text-xs tracking-[0.2em] uppercase text-[#c9a84c99] mb-4">
-          Lesson 4 Complete · TEKS 4.13A
+          Lesson 5 Complete · TEKS 4.13A
         </p>
         <p className="text-[#f5e199cc] text-lg font-[family-name:var(--font-crimson)] leading-relaxed">{config.scoreMsg}</p>
       </motion.div>
@@ -1370,12 +1314,13 @@ function Scene8({ score, onRestart }: { score: number; onRestart: () => void }) 
           📚 What You Learned Today
         </h2>
         {[
-          "Xylem carries water and minerals UP from roots to leaves. It's made of dead hollow tube cells.",
-          "Phloem carries sugar DOWN from leaves to the rest of the plant through translocation.",
-          "Chloroplasts are the organelles where photosynthesis happens — only found in plant cells.",
-          "The central vacuole stores water and creates turgor pressure that keeps the plant firm.",
-          "The cell wall gives plant cells their rigid shape — plant cells have this, animal cells do not.",
-          "All internal structures work together as a system — structure always serves function!",
+          "Photosynthesis is the process plants use to make their own food using sunlight, water, and carbon dioxide.",
+          "It happens inside chloroplasts — specifically where chlorophyll captures sunlight.",
+          "The outputs are glucose (food for the plant) and oxygen (released into the air we breathe).",
+          "Stomata open to let CO₂ in but also release water vapor — this is called transpiration.",
+          "Chlorophyll is green because it absorbs red and blue light but reflects green light.",
+          "At night, plants respire like animals — taking in oxygen and releasing carbon dioxide.",
+          "Photosynthesis is the foundation of ALL life on Earth — every food chain starts here.",
         ].map((item, i) => (
           <motion.p
             key={i}
@@ -1387,12 +1332,13 @@ function Scene8({ score, onRestart }: { score: number; onRestart: () => void }) 
             ✦ {item}
           </motion.p>
         ))}
+
         <Divider />
 
         <div className="mb-4">
           <p className="font-[family-name:var(--font-cinzel)] text-xs text-[#c9a84c] mb-2 tracking-wider">🔉 Lesson Vocabulary</p>
           <div className="flex flex-wrap gap-3">
-            {["xylem", "phloem", "translocation", "vascular", "chloroplast", "vacuole", "turgor", "cellulose", "organelle", "nucleus"].map(w => (
+            {["photosynthesis", "chlorophyll", "chloroplast", "stomata", "glucose", "transpiration", "thylakoid", "stroma"].map(w => (
               <div key={w} className="flex items-center gap-1 bg-[#1a0d45] border border-[#c9a84c22] rounded-full px-3 py-1">
                 <span className="text-[#f5e199cc] text-xs font-[family-name:var(--font-crimson)]">{w}</span>
                 <Pronounce word={w} />
@@ -1401,23 +1347,25 @@ function Scene8({ score, onRestart }: { score: number; onRestart: () => void }) 
           </div>
         </div>
 
+        <Divider />
+
         <div className="bg-[#1a0d45] border border-[#c9a84c33] rounded-xl p-4 mb-3">
           <p className="font-[family-name:var(--font-cinzel)] text-xs text-[#c9a84c] mb-2">🏠 Try This at Home!</p>
           <p className="text-[#f5e199cc] text-sm leading-relaxed mb-2">
-            <strong className="text-[#f5e199]">Celery Xylem Experiment:</strong> Place a stalk of celery (with leaves) in a glass of water with a few drops of food coloring. Wait 24 hours. Cut the stalk crosswise and look at the cross-section — you'll see colored dots where the xylem carried the colored water up!
+            <strong className="text-[#f5e199]">Leaf Disk Experiment:</strong> Cut small disks from a spinach leaf using a straw. Use a syringe to remove air from the disks (they'll sink). Place them in a clear cup of water with a little baking soda near a lamp. Watch the disks slowly float to the surface as they produce oxygen through photosynthesis!
           </p>
-          <p className="text-[#c9a84c] text-xs italic">Predict: Which color will travel the fastest — red or blue food coloring?</p>
+          <p className="text-[#c9a84c] text-xs italic">Predict: Will the disks float faster in bright light or dim light?</p>
         </div>
 
         <p className="font-[family-name:var(--font-cinzel)] text-xs tracking-[0.1em] text-[#c9a84c] mt-2">
-          Next Lesson: Photosynthesis — How Plants Make Food ☀️
+          Next Lesson: Chlorophyll & Color — Why Do Leaves Change? 🍂
         </p>
       </Card>
 
       <div className="text-center flex gap-4 justify-center flex-wrap">
         <GoldBtn onClick={onRestart}>Review Lesson ↺</GoldBtn>
-        <Link href="/kyliana/science/lesson-3">
-          <GhostBtn onClick={() => {}}>← Lesson 3</GhostBtn>
+        <Link href="/kyliana/science/lesson-4">
+          <GhostBtn onClick={() => {}}>← Lesson 4</GhostBtn>
         </Link>
       </div>
     </motion.div>
@@ -1427,7 +1375,7 @@ function Scene8({ score, onRestart }: { score: number; onRestart: () => void }) 
 // ══════════════════════════════════════════════════════════════
 // MAIN PAGE
 // ══════════════════════════════════════════════════════════════
-export default function Lesson4() {
+export default function Lesson5() {
   const [scene, setScene] = useState(1);
   const [score, setScore] = useState(0);
   const TOTAL = 8;
@@ -1439,7 +1387,7 @@ export default function Lesson4() {
     setScene(8);
     saveLessonProgress({
       studentId: "kyliana",
-      lessonId: "science-lesson-4",
+      lessonId: "science-lesson-5",
       subject: "Science",
       unit: "Life Science — Plants",
       teks: "4.13A",
@@ -1490,10 +1438,10 @@ export default function Lesson4() {
             className="font-[family-name:var(--font-cinzel)] text-2xl font-bold text-[#f5e199] mb-1"
             style={{ textShadow: "0 0 20px #c9a84c88" }}
           >
-            🔬 Internal Plant Structures
+            ☀️ Photosynthesis — How Plants Make Food
           </h1>
           <p className="text-[#c9a84c99] text-sm font-[family-name:var(--font-crimson)] italic">
-            Lesson 4 of 10 · TEKS 4.13A
+            Lesson 5 of 10 · TEKS 4.13A
           </p>
         </div>
 
