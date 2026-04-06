@@ -457,7 +457,7 @@ function Scene1({ onNext }: { onNext: () => void }) {
       <Gloople
         mood="panicked"
         voiced
-        message="SHE DID IT AGAIN. Fangsley was experimenting with a new potion and mixed up the order of operations in the formula — the whole thing backfired and now—"
+        message="HE DID IT AGAIN. Fangsley was experimenting with a new potion and mixed up the order of operations in the formula — the whole thing backfired and now—"
       />
       <Fangsley
         mood="tiny"
