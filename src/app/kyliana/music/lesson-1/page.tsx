@@ -636,7 +636,7 @@ const SONGS: SongConfig[] = [
     id: "mountain-king",
     title: "In the Hall of the Mountain King",
     artist: "Edvard Grieg",
-    youtubeId: "hnUs4SFOGbE",
+    youtubeId: "OqvHWUZZdP0",
     genre: "Classical / Orchestra",
     accentColor: "#ffd166",
     location: {
