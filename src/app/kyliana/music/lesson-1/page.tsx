@@ -169,7 +169,7 @@ function EmbercliffAtmosphere() {
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: "url('/images/embercliff/bg.png')",
+          backgroundImage: "url('/images/embercliff/bg3.png')",
           backgroundSize: "cover",
           backgroundPosition: "center top",
           backgroundRepeat: "no-repeat",
