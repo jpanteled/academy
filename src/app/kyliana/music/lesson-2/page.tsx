@@ -399,7 +399,7 @@ const SONGS: SongConfig[] = [
     id: "twinkle",
     title: "Twinkle Twinkle Little Star",
     artist: "Traditional / Classical",
-    youtubeId: "PYadlIf01Ww",
+    youtubeId: "yCjJyiqpAuU",
     genre: "Classical",
     accentColor: "#ffd166",
     dragon: <Solara mood="warm" message="We start simple on purpose. This is one of the oldest melodies you know. Map the structure carefully — it will be your reference point for everything that comes next. Simple isn't easy. Simple is precise." />,
