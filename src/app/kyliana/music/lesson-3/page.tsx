@@ -270,16 +270,24 @@ function Chip({ label, selected, onClick, color = "#ffd166" }: {
   );
 }
 
-function YouTubePlayer({ videoId, color }: { videoId: string; color: string }) {
+function YouTubePlayer({ videoId, watchUrl, color }: { videoId: string; watchUrl: string; color: string }) {
   return (
-    <div className="rounded-2xl overflow-hidden mb-5 border-2" style={{ borderColor: color+"55" }}>
-      <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
-        <iframe className="absolute top-0 left-0 w-full h-full"
-          src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen title="Music player"
-        />
+    <div className="mb-5">
+      <div className="rounded-2xl overflow-hidden border-2" style={{ borderColor: color+"55" }}>
+        <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
+          <iframe className="absolute top-0 left-0 w-full h-full"
+            src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen title="Music player"
+          />
+        </div>
       </div>
+      <a href={watchUrl} target="_blank" rel="noopener noreferrer"
+        className="flex items-center justify-center gap-2 mt-2 px-4 py-2 rounded-xl border text-xs font-bold transition-all"
+        style={{ borderColor: color+"44", color, background: color+"11" }}
+      >
+        ▶ Open on YouTube
+      </a>
     </div>
   );
 }
@@ -373,7 +381,7 @@ function KeyResponseForm({ response, onChange, accentColor }: {
 // SONG DATA
 // ══════════════════════════════════════════════════════════════
 type SongConfig = {
-  id: string; title: string; artist: string; youtubeId: string;
+  id: string; title: string; artist: string; youtubeId: string; watchUrl: string;
   keyType: KeyType; colorWord: string; accentColor: string;
   dragon: React.ReactNode;
   correct: React.ReactNode;
@@ -386,6 +394,7 @@ const SONGS: SongConfig[] = [
     title: "Yellow Ledbetter",
     artist: "Pearl Jam",
     youtubeId: "VhJ65v_C-eI",
+    watchUrl: "https://www.youtube.com/watch?v=VhJ65v_C-eI",
     keyType: "major",
     colorWord: "Yellow",
     accentColor: "#ffd166",
@@ -403,6 +412,7 @@ const SONGS: SongConfig[] = [
     title: "Blue",
     artist: "LeAnn Rimes",
     youtubeId: "GozdIQx1Wow",
+    watchUrl: "https://www.youtube.com/watch?v=GozdIQx1Wow",
     keyType: "minor",
     colorWord: "Blue",
     accentColor: "#a8dadc",
@@ -420,6 +430,7 @@ const SONGS: SongConfig[] = [
     title: "Something in the Orange",
     artist: "Zach Bryan",
     youtubeId: "sDOxeU02NUM",
+    watchUrl: "https://www.youtube.com/watch?v=sDOxeU02NUM",
     keyType: "minor",
     colorWord: "Orange",
     accentColor: "#ff9f43",
@@ -437,6 +448,7 @@ const SONGS: SongConfig[] = [
     title: "Paint It Black",
     artist: "The Rolling Stones",
     youtubeId: "O4irXQhgMqg",
+    watchUrl: "https://www.youtube.com/watch?v=O4irXQhgMqg",
     keyType: "minor",
     colorWord: "Black",
     accentColor: "#ff6b6b",
@@ -551,7 +563,7 @@ function SongScene({ song, songIndex, totalSongs, response, onChange, onNext, is
             <p className="text-sm mt-0.5" style={{ color: song.accentColor }}>{song.artist}</p>
           </div>
         </div>
-        <YouTubePlayer videoId={song.youtubeId} color={song.accentColor} />
+        <YouTubePlayer videoId={song.youtubeId} watchUrl={song.watchUrl} color={song.accentColor} />
       </CliffCard>
 
       <AnimatePresence>
