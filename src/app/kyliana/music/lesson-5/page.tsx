@@ -390,10 +390,10 @@ const SONGS: SongConfig[] = [
       annotation: "LBC = Long Beach, California. Place established in 6 words. His own name becomes a percussion instrument — the spelling D-O-G lands on the beat. This is rap as poetry: economy, rhythm, identity, all in two lines."
     },
     prompts: {
-      flow: "Snoop's delivery is famously relaxed — almost like he's talking, not rapping. Does it feel effortless or deliberate to you?",
-      production: "Listen for the bass line underneath everything. And the synth — that wavy, warm sound. That's G-funk. What does it feel like compared to music you've heard before?",
-      era: "This was made in 1993 — before you were born, before your mom was your age now. Does it feel old? Why or why not?",
-      snoop: "This is Snoop at 21. What's already there that you'll hear in every Snoop song after this?",
+      flow: "Does Snoop sound like he's trying hard, or does he sound super relaxed? What's cool about the way he says his words?",
+      production: "What does the beat feel like? Is it fast or slow? Does it feel bouncy, heavy, smooth? Try to describe the sound.",
+      era: "This song is older than you are! Does it sound old to you, or does it still sound cool? Why?",
+      snoop: "What do you notice about Snoop's voice? What makes it sound like HIM?",
     },
     hints: {
       solara: "Listen to the opening lines as if they're a poem, not a song. Where does he put the weight? What words land hardest? That's called cadence — and Snoop's cadence is one of the most distinctive in rap history.",
@@ -423,10 +423,10 @@ const SONGS: SongConfig[] = [
       annotation: "The repetition of 'drop it like it's hot' is a classic hook device — simple, rhythmic, impossible to forget. Snoop understood early that the hook is the architecture. Everything else is decoration."
     },
     prompts: {
-      flow: "Compare Snoop's delivery here to Gin and Juice. Same artist, 11 years later. What's the same? What's different?",
-      production: "The beat is almost empty — mostly clicks and silence. How does that change how you hear Snoop's voice?",
-      era: "This is 2004 — a completely different era of rap. Does it sound different from 1993? In what way?",
-      snoop: "Same voice. Same laid-back energy. Different everything else. What makes it still feel like Snoop?",
+      flow: "Does Snoop sound the same as Gin and Juice or different? What changed? What stayed the same?",
+      production: "The beat is mostly clicks and silence — barely anything! How does that feel compared to the big bass in Gin and Juice?",
+      era: "Does this sound newer or older than Gin and Juice? What makes it sound that way?",
+      snoop: "Even with a totally different beat — how do you know it's still Snoop? What gives him away?",
     },
     hints: {
       solara: "Count the sounds in the beat. There aren't many. Pharrell made a hit record with almost nothing. That restraint is a choice — what does the empty space make you focus on?",
@@ -456,10 +456,10 @@ const SONGS: SongConfig[] = [
       annotation: "Snoop shifts from street narrator to romantic observer. The imagery is visual and warm — eyes lighting up, a room humming. This is the same poet who opened Gin and Juice with eight words about Long Beach. Same skills, completely different subject."
     },
     prompts: {
-      flow: "Snoop sounds different here — softer, more melodic. Does it surprise you? Does it still sound like him?",
-      production: "This is also Pharrell — same producer as Drop It Like It's Hot but a completely different sound. What did Pharrell change?",
-      era: "This is the side of Snoop most people don't know. Did you expect this from him based on the other songs?",
-      snoop: "Even in a slower, more emotional song — what's still distinctly Snoop about his delivery?",
+      flow: "Does this sound like the same Snoop from the other songs? What's different about how he's singing here?",
+      production: "Pharrell made this AND Drop It Like It's Hot — but they sound totally different! What changed?",
+      era: "Did this song surprise you? Did you expect Snoop to make something like this?",
+      snoop: "Even though this is slower and softer — can you still tell it's Snoop? What gives it away?",
     },
     hints: {
       solara: "Listen to the key — does it feel major or bright, or minor and bittersweet? You know how to hear this now. What emotion does the key create before a single word is sung?",
@@ -489,10 +489,10 @@ const SONGS: SongConfig[] = [
       annotation: "Simple, direct, conversational. The hook is built for singing along — short lines, repetition, universal feeling. By 2012 Snoop understood that accessibility IS craft. A hook everyone can sing is harder to write than it looks."
     },
     prompts: {
-      flow: "Listen to Snoop, then listen to Wiz. Two different generations of rap. What sounds similar? What sounds different?",
-      production: "This is 2012 — almost 20 years after Gin and Juice. How has the production changed? What era does THIS sound like?",
-      era: "Snoop is 40 here. Does he sound out of place next to a 24-year-old Wiz Khalifa? Why or why not?",
-      snoop: "After four songs across 19 years — what is the one thing that has NEVER changed about Snoop?",
+      flow: "Can you tell which parts are Snoop and which are Wiz Khalifa? How do they sound different from each other?",
+      production: "This is almost 20 years newer than Gin and Juice! How does the beat feel different? What changed?",
+      era: "Snoop is 40 years old in this song. Does he sound old? Does he fit in with Wiz?",
+      snoop: "You've now heard Snoop in 1993, 2003, 2004, and 2012. What is the ONE thing that never changed?",
     },
     hints: {
       solara: "Listen for where the melody sits. 2012 rap production had a lighter, more melodic quality than 1993 G-funk. How does Snoop adapt his delivery to fit the new sound without losing himself?",
@@ -745,10 +745,10 @@ function SceneCompare({ onNext }: { onNext: (a: CompareAnswers) => void }) {
 
         <div className="mb-5">
           <p className="text-xs font-black tracking-widest uppercase text-[#b5838d99] mb-3">
-            🔑 Snoop stayed relevant for 30 years. What do you think his secret is?
+            🔑 Snoop has been making hits for 30 years. What do you think his secret is?
           </p>
           <textarea value={answers.reinventionTheme} onChange={(e) => setAnswers((a) => ({ ...a, reinventionTheme: e.target.value }))}
-            placeholder="Think about what changed and what never changed across all four songs…" rows={3}
+            placeholder="What stayed the same across all four songs? What kept changing?" rows={3}
             className="w-full bg-[#0d0500] border border-[#ffffff22] rounded-xl px-4 py-3 text-[#f8edeb] text-sm leading-relaxed outline-none resize-none placeholder-[#ffffff33] transition-colors"
             onFocus={(e) => (e.target.style.borderColor = "#b5838d88")} onBlur={(e) => (e.target.style.borderColor = "#ffffff22")}
           />
@@ -756,11 +756,11 @@ function SceneCompare({ onNext }: { onNext: (a: CompareAnswers) => void }) {
 
         <div>
           <p className="text-xs font-black tracking-widest uppercase text-[#b5838d99] mb-1">
-            📝 Bonus: Pick your favorite lyric or line from any of the four songs. Why does it work?
+            📝 Bonus: What's your favorite line from any of the four songs? Why do you like it?
           </p>
-          <p className="text-[#ffffff33] text-xs mb-3">Optional — but this is the poetry question.</p>
+          <p className="text-[#ffffff33] text-xs mb-3">Optional — write the line and say what makes it cool.</p>
           <textarea value={answers.poetryMoment} onChange={(e) => setAnswers((a) => ({ ...a, poetryMoment: e.target.value }))}
-            placeholder="Write the line and tell me why it's good…" rows={2}
+            placeholder="Write the line here and tell me what you like about it…" rows={2}
             className="w-full bg-[#0d0500] border border-[#ffffff22] rounded-xl px-4 py-3 text-[#f8edeb] text-sm leading-relaxed outline-none resize-none placeholder-[#ffffff33] transition-colors"
             onFocus={(e) => (e.target.style.borderColor = "#b5838d88")} onBlur={(e) => (e.target.style.borderColor = "#ffffff22")}
           />
